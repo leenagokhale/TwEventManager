@@ -9,6 +9,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TextInput} from 'react-native';
 import RegisterForm from './Components/RegisterForm';
+import ListRegistrations from './Components/ListRegistrations';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -21,7 +22,8 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        { <RegisterForm /> }
+        {  /*<RegisterForm />  */
+             <ListRegistrations /> }
       </View>
     );
   }
@@ -30,7 +32,8 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    // justifyContent: 'center',
+    paddingTop: 30,
     alignItems: 'center',
     backgroundColor: 'powderblue',
   },
