@@ -21,8 +21,8 @@ class CreateEvent extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        "name": txteventName,
-        "email": txtDesc,
+        "eventName": txteventName,
+        "eventDesc": txtDesc,
       }),
     })
       .then((response) => response.json())

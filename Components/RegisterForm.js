@@ -1,15 +1,35 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, Picker } from 'react-native';
 
 export default class RegisterForm extends Component {
-    state = {
-        name: '',
-        email: '',
-        mobile: '',
-        employer: '',
-        jobTitle: ''
+    constructor (props)
+    {
+        super(props);
+        this.state = {
+            selectedEvent: '',
+            eventList: [
+                {eventName: 'workshop 0111'}, 
+                {eventName: 'workshop 1'},
+                {eventName: 'workshop 2'},
+                {eventName: 'workshop 3'}],
+            name: '',
+            email: '',
+            mobile: '',
+            employer: '',
+            jobTitle: ''
+        }
+    
     }
+    
+   updateEvent = (eventName) => {
+      this.setState({ selectedEvent: eventName })
+   }
 
+    loadEvents = () => {
+         return this.state.eventList.map((data)  => 
+         {return (<Picker.Item label={data.eventName} value={data.eventName} key={data.eventName} />)})
+    }
+   
     submitPressed = (txtName, txtEmail, txtMobile, txtEmployer, txtJobTitle) => {
 
         fetch('https://tweventmanager-db.firebaseio.com//registrations.json', {
@@ -32,9 +52,15 @@ export default class RegisterForm extends Component {
 
     render() {
         return (
-            <View >
-                <Text style={styles.formHeading}>Registration</Text>
-                <Text>Event Name Here drop down</Text>
+            <View style={styles.viewStyle}>
+                <Text style={styles.formHeading}>Registration for event</Text>
+                <Picker 
+                    style={styles.eventPicker} itemStyle={styles.eventPickerItem}
+                    mode="dropdown"
+                    selectedValue = {this.state.selectedEvent} onValueChange = {this.updateEvent}>
+                    {this.loadEvents()} 
+                </Picker>
+
                 <TextInput
                     style={styles.textInput}
                     placeholder="  Enter Name"
@@ -59,13 +85,8 @@ export default class RegisterForm extends Component {
                     onChangeText={(text) => { this.setState({ jobTitle: text }) }} />
 
                 <Text>Would you like to here from Thoughtworks-Chk boxes</Text>
-
-                <Text>{this.state.name}</Text>
-                <Text>{this.state.email}</Text>
-                <Text>{this.state.mobile}</Text>
-                <Text>{this.state.employer}</Text>
-                <Text>{this.state.jobTitle}</Text>
-
+                
+                <Text>{this.state.selectedEvent}</Text>
                 <TouchableOpacity
                     style={styles.submitButton}
                     onPress={
@@ -79,6 +100,10 @@ export default class RegisterForm extends Component {
 }
 
 const styles = StyleSheet.create({
+    viewStyle:{
+        flex:1,
+    },
+
     textInput: {
         margin: 15,
         height: 40,
@@ -97,7 +122,22 @@ const styles = StyleSheet.create({
     },
     formHeading: {
         color: 'black',
-        padding: 20,
+        padding: 5,
         fontSize: 25,
-    }
+        marginTop: 5,
+        //fontWeight: 'bold',
+    },
+    eventPicker: {
+       // width: 200,
+        height: 100,
+       // backgroundColor: '#FFF0E0',
+        borderColor: 'grey',
+        borderWidth: 0.5,
+        borderRadius: 14,
+      },
+      eventPickerItem: {
+        height: 100,
+        fontSize : 15
+        //color: 'red'
+      },
 });

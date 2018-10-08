@@ -2,9 +2,16 @@
 ========================================================================
 reference links -
 
+Adding drop down in react native
+https://stackoverflow.com/questions/45899651/react-native-dropdown-in-a-form-with-list-loading-dynamically
+https://www.youtube.com/watch?v=UiWgN39R9GA
+https://libraries.io/npm/react-native-picker-dropdown
+
+
 structuring fireBase data (V good)
 https://www.airpair.com/firebase/posts/structuring-your-firebase-data
 https://www.firebase.com/docs/web/guide/structuring-data.html
+https://stackoverflow.com/questions/41527058/many-to-many-relationship-in-firebase
 
 
 Navigation example
@@ -149,3 +156,24 @@ tabBarOptions: {
 			borderTopWidth: 1,
 			borderTopColor: 'white'
 		},
+
+
+
+                    <Picker 
+                    style={{width: 200, height: 60}} itemStyle={{height: 44}}
+                    mode="dropdown"
+                    selectedValue = {this.state.selectedEvent} onValueChange = {this.updateEvent}>
+                    <Picker.Item label = "Steve" value = "steve" />
+                    <Picker.Item label = "Ellen" value = "ellen" />
+                    <Picker.Item label = "Maria" value = "maria" />
+                </Picker>
+
+
+position: 'absolute'
+bottom: 0, left:0, right:0
+
+eventList: [
+                {eventName:'workshop'}, 
+                {eventName:'workshop 1'},
+                {eventName:'workshop 2'},
+                {eventName:'workshop 3'}]
