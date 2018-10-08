@@ -71,13 +71,14 @@ const RootStack = createStackNavigator({
 export default class App extends Component {
   render() {
     return (
-      /*<View style={styles.container}>
-        {  <RegisterForm />  
+      <View style={styles.container}>
+        { /* <RegisterForm />  */
             <ListRegistrations />
             }
-      </View>  <RootStack /> */
-
-      <NewTabs />
+      </View>  
+      
+      /*<RootStack /> */
+      /*  <NewTabs /> */
     );
   }
 }
