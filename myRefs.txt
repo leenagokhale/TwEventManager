@@ -1,6 +1,12 @@
 
 ========================================================================
 reference links -
+
+structuring fireBase data (V good)
+https://www.airpair.com/firebase/posts/structuring-your-firebase-data
+https://www.firebase.com/docs/web/guide/structuring-data.html
+
+
 Navigation example
 https://github.com/react-navigation/react-navigation/tree/master/examples/NavigationPlayground/js
 

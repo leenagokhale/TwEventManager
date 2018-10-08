@@ -8,7 +8,7 @@ class MockListRegistrations extends Component {
       <Text>View Registrations</Text>
       <Button
         title="Go to Create Event"
-        onPress={() => this.props.navigation.navigate('CreateEvent')}
+        onPress={() => this.props.navigation.navigate('MockCreateEvent')}
       />
     </View>
   );

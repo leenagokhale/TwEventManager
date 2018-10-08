@@ -27,7 +27,7 @@ export default class RegisterForm extends Component {
              }),
             })
            .then((response) => response.json())
-
+            //catch exception
      }
 
     render() {

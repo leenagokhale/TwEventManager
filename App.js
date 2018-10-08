@@ -10,18 +10,19 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, TextInput } from 'react-native';
 import RegisterForm from './Components/RegisterForm';
 import ListRegistrations from './Components/ListRegistrations';
+import CreateEvent from './Components/CreateEvent';
 
 import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
 
 import MockRegister from './Components/MockRegister';
-import CreateEvent from './Components/CreateEvent';
+import MockCreateEvent from './Components/MockCreateEvent';
 import MockListRegistrations from './Components/MockListRegistrations';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 
 const NewTabs = createBottomTabNavigator({
-  CreateEvent: {
-    screen: CreateEvent,
+  MockCreateEvent: {
+    screen: MockCreateEvent,
     navigationOptions: {
       tabBarLabel: 'Create New Event',
       tabBarIcon: ({ tintColor }) => (
@@ -50,7 +51,7 @@ const NewTabs = createBottomTabNavigator({
   },
 },
   {
-    initialRouteName: 'CreateEvent',
+    initialRouteName: 'MockCreateEvent',
     tabBarOptions:{
       activeTintColor: 'blue',
       inactiveTintColor: 'grey',
@@ -72,13 +73,15 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        { /* <RegisterForm />  */
-            <ListRegistrations />
-            }
-      </View>  
-      
+        { 
+          /* <RegisterForm />  */
+            /*<ListRegistrations />*/
+            <CreateEvent />
+            } 
+      </View> 
+    /*  <NewTabs /> */
       /*<RootStack /> */
-      /*  <NewTabs /> */
+      
     );
   }
 }
