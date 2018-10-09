@@ -74,9 +74,9 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
         { 
-           <RegisterForm />  
-            /*<ListRegistrations />*/
-           /* <CreateEvent />*/
+           <RegisterForm /> 
+           /* <ListRegistrations /> */
+            /*<CreateEvent />*/
             } 
       </View> 
     /*  <NewTabs /> */

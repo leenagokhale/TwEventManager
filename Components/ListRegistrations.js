@@ -1,26 +1,20 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, FlatList, Alert } from 'react-native';
-import * as firebase from 'firebase';
+import firebase from '../Config/FireBaseConfig'
 
-//We have put apiKey related details in a seperate file. 
+//We have put firebase apiKey related details in a seperate file. 
 //That file is not put on git. 
-import firebaseConfig1 from '../Config/FireBaseConfig'; 
-const firebaseApp = firebase.initializeApp(firebaseConfig1);
 
 export default class ListRegistrations extends Component {
 
     constructor(props) {
         super(props);
 
-    this.itemsRef = this.getRef().child('registrations');
+    this.itemsRef = firebase.database().ref().child('registrations');
 
     this.state = {
             data: []
         }
-    }
-
-    getRef() {
-        return firebaseApp.database().ref();
     }
 
     /*

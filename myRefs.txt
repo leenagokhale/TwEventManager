@@ -2,6 +2,9 @@
 ========================================================================
 reference links -
 
+fireBase sign in
+https://medium.com/@jameshamann/react-native-and-firebase-part-one-simple-authentication-3b233fff5b3f
+
 Adding drop down in react native
 https://stackoverflow.com/questions/45899651/react-native-dropdown-in-a-form-with-list-loading-dynamically
 https://www.youtube.com/watch?v=UiWgN39R9GA
@@ -126,48 +129,6 @@ https://console.firebase.google.com/?pli=1
 
 ============================================
 
-{
-        tabBarPosition: 'bottom',
-        swipeEnabled: true,
-        tabBarOptions:{
-            activeTintColor: '#f2f2f2',
-            activeBackgroundColor: '#2EC4B6',
-            inactiveTintColor: '#666',
-            labelStyle:{
-                   fontSize = 22,
-                   padding: 12 
-            }
-        }
-             tabBarTextFontSize: 18, 
-
-          tabBarIcon: ({tintColor}) => (
-                <Icon name="ios-home" size={24} />
-            )
-
-tabBarOptions: {
-		activeTintColor: 'white',
-		inactiveTintColor: 'lightgray',
-		labelStyle: {
-			fontSize: 10,
-			fontFamily: Fonts.book
-		},
-		style: {
-			backgroundColor: 'orange',
-			borderTopWidth: 1,
-			borderTopColor: 'white'
-		},
-
-
-
-                    <Picker 
-                    style={{width: 200, height: 60}} itemStyle={{height: 44}}
-                    mode="dropdown"
-                    selectedValue = {this.state.selectedEvent} onValueChange = {this.updateEvent}>
-                    <Picker.Item label = "Steve" value = "steve" />
-                    <Picker.Item label = "Ellen" value = "ellen" />
-                    <Picker.Item label = "Maria" value = "maria" />
-                </Picker>
-
 
 position: 'absolute'
 bottom: 0, left:0, right:0
@@ -177,3 +138,5 @@ eventList: [
                 {eventName:'workshop 1'},
                 {eventName:'workshop 2'},
                 {eventName:'workshop 3'}]
+
+import * as firebase from 'firebase';
