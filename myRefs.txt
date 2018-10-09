@@ -133,10 +133,16 @@ https://console.firebase.google.com/?pli=1
 position: 'absolute'
 bottom: 0, left:0, right:0
 
-eventList: [
-                {eventName:'workshop'}, 
-                {eventName:'workshop 1'},
-                {eventName:'workshop 2'},
-                {eventName:'workshop 3'}]
+read data from fireBase
+readUserData() {
+    firebase.database().ref('Users/').once('value', function (snapshot) {
+        console.log(snapshot.val())
+    });
+}
 
-import * as firebase from 'firebase';
+update data in firebase
+updateSingleData(email){
+    firebase.database().ref('Users/').update({
+        email,
+    });
+}

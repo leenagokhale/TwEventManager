@@ -6,7 +6,6 @@ export default class RegisterForm extends Component {
 
     constructor(props) {
         super(props);
-
         this.itemsRef = firebase.database().ref().child('events');
 
         this.state = {
@@ -21,8 +20,9 @@ export default class RegisterForm extends Component {
 
     }
 
+    // This function writes data to fireBase using fetch API.
+    // It is not called anymore. We use function that uses freBase API. But keep it forreference
     submitPressed = (txtName, txtEmail, txtMobile, txtEmployer, txtJobTitle) => {
-
         fetch('https://tweventmanager-db.firebaseio.com//registrations.json', {
             method: 'POST',
             headers: {
@@ -39,8 +39,31 @@ export default class RegisterForm extends Component {
         })
             .then((response) => response.json())
         //catch exception
+    }
 
-        //Also post data in eventsToregistrations table here.
+    submitPressedFireBaseAPI = (txtName, txtEmail, txtMobile, txtEmployer, txtJobTitle, txtEventName) => {
+      
+        console.log(txtEventName);
+        // Write data to registrations node.
+        firebase.database().ref().child('registrations').push({
+            "name": txtName,
+            "email": txtEmail,
+            "mobile": txtMobile,
+            "employer": txtEmployer,
+            "jobTitle": txtJobTitle});
+
+        //Find the right node under events to add the new participants's name/id.
+        this.itemsRef.once('value', (snap) => {
+                // get children as an array
+                snap.forEach((child) => {
+                    console.log(child.val().eventName)
+                    if (child.val().eventName.localeCompare(txtEventName) === 0)
+                    {
+                        //append eventName key to events node. set it to true.
+                        this.itemsRef.child(child.key + '/registrations').push({[txtName]: 'true'});
+                    }
+                });
+     });
     }
 
     updateEvent = (eventName) => {
@@ -48,10 +71,15 @@ export default class RegisterForm extends Component {
     }
 
     loadEvents = (myref) => {
-        var items = [];
         myref.on('value', (snap) => {
+        var items = [];
             // get children as an array
             snap.forEach((child) => {
+                
+                //set default selection for picker. First item in event list
+                if (this.state.selectedEvent === '')
+                 this.setState({ selectedEvent: child.val().eventName })
+                 
                 items.push({
                     eventName: child.val().eventName,
                     _key: child.key,
@@ -63,6 +91,7 @@ export default class RegisterForm extends Component {
             eventList: [...this.state.eventList, ...items]
         });
        });
+       
     }
 
     displayPickerItems = (events) => {
@@ -71,8 +100,14 @@ export default class RegisterForm extends Component {
 
     componentDidMount() {
         this.loadEvents(this.itemsRef);
-    }
 
+       /* if (this.state.selectedEvent === '' || this.state.eventList.length > 0)
+        {
+            const key = Object.keys(this.state.eventList)[0];
+            console.log(key);
+            this.setState({ selectedEvent: this.state.eventList[key] })
+        }*/
+    }
 
     render() {
         return (
@@ -116,7 +151,7 @@ export default class RegisterForm extends Component {
                 <TouchableOpacity
                     style={styles.submitButton}
                     onPress={
-                        () => this.submitPressed(this.state.name, this.state.email, this.state.mobile, this.state.employer, this.state.jobTitle)}>
+                        () => this.submitPressedFireBaseAPI(this.state.name, this.state.email, this.state.mobile, this.state.employer, this.state.jobTitle, this.state.selectedEvent)}>
                     <Text style={styles.submitButtonText}> Submit </Text>
                 </TouchableOpacity>
 
@@ -164,6 +199,5 @@ const styles = StyleSheet.create({
     eventPickerItem: {
         height: 100,
         fontSize: 15
-        //color: 'red'
     },
 });
