@@ -37,7 +37,10 @@ export default class RegisterForm extends Component {
                 "jobTitle": txtJobTitle
             }),
         })
-            .then((response) => response.json())
+        .catch(error => {
+            console.log('Error in fecth in RegisterForm' + error);
+          });
+            //.then((response) => response.json())
         //catch exception
     }
 
@@ -55,6 +58,7 @@ export default class RegisterForm extends Component {
         //Find the right node under events to add the new participants's name/id.
         this.itemsRef.once('value', (snap) => {
                 // get children as an array
+                //console.log(snap.val())
                 snap.forEach((child) => {
                     console.log(child.val().eventName)
                     if (child.val().eventName.localeCompare(txtEventName) === 0)

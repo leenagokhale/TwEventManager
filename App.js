@@ -74,10 +74,10 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
         { 
-           <RegisterForm /> 
-           /* <ListRegistrations /> */
+           /*<RegisterForm /> */
+            <ListRegistrations /> 
             /*<CreateEvent />*/
-            } 
+           } 
       </View> 
     /*  <NewTabs /> */
       /*<RootStack /> */
@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     paddingTop: 30,
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: 'powderblue',
   },
 });

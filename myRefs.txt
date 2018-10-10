@@ -1,6 +1,8 @@
 
 ========================================================================
 reference links -
+flatList styles
+https://stackoverflow.com/questions/45580034/react-native-flatlist-separator-between-columns
 
 fireBase sign in
 https://medium.com/@jameshamann/react-native-and-firebase-part-one-simple-authentication-3b233fff5b3f
@@ -146,3 +148,13 @@ updateSingleData(email){
         email,
     });
 }
+
+flatList style
+numColumns={3}
+
+
+
+ 
+
+
+     
