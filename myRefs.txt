@@ -13,10 +13,11 @@ https://www.youtube.com/watch?v=UiWgN39R9GA
 https://libraries.io/npm/react-native-picker-dropdown
 
 
-structuring fireBase data (V good)
+structuring fireBase data (many to many relationship) (V good)
 https://www.airpair.com/firebase/posts/structuring-your-firebase-data
 https://www.firebase.com/docs/web/guide/structuring-data.html
 https://stackoverflow.com/questions/41527058/many-to-many-relationship-in-firebase
+https://medium.com/@alfianlosari/firebase-realtime-database-many-to-many-relationship-schema-4155d9647f0f
 
 
 Navigation example
@@ -152,9 +153,15 @@ updateSingleData(email){
 flatList style
 numColumns={3}
 
-
+saving date in fireBase
+ref.push({
+    foo: 'bar',
+    date: Firebase.ServerValue.TIMESTAMP
+});
 
  
 
-
-     
+flatList render problem
+ // refreshing={true}
+// onRefresh={() => this.getParticipantsForEvent(this.state.selectedEvent)}
+                    

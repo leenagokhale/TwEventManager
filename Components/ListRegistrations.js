@@ -19,66 +19,6 @@ export default class ListRegistrations extends Component {
         }
     }
 
-    updateEvent = (eventName) => {
-        this.setState({ selectedEvent: eventName })
-    }
-
-    loadEvents = (myref) => {
-        myref.on('value', (snap) => {
-        var items = [];
-            // get children as an array
-            snap.forEach((child) => {
-                
-                //set default selection for picker. First item in event list
-                if (this.state.selectedEvent === '')
-                 this.setState({ selectedEvent: child.val().eventName })
-                 
-                items.push({
-                    eventName: child.val().eventName,
-                    _key: child.key,
-                });
-            });
-
-        console.log(items)
-        this.setState({
-            eventList: [...this.state.eventList, ...items]
-        });
-       });
-       
-    }
-
-    displayPickerItems = (events) => {
-        return events.map((data) => { return (<Picker.Item label={data.eventName} value={data.eventName} key={data.eventName} />) })
-    }
-
-    /*
-    listenForItems uses fireBase suported API to get data snapshot.
-    It is easier to traverse through database using fireBase API.
-    So currently using this.
-    */
-
-    listenForItems = (itemsRef) => {
-        itemsRef.on('value', (snap) => {
-
-            // get children as an array
-            var items = [];
-            snap.forEach((child) => {
-
-                items.push({
-                    name: child.val().name,
-                    _key: child.key,
-                    email: child.val().email,
-                    mobile: child.val().mobile
-                });
-            });
-            //console.log(items)
-            this.setState({
-                data: [...this.state.data, ...items]
-            });
-
-        });
-    }
-
     /* 
         fetchData() is currently not called. (do not delete. keep as reference)
        For learning purpose, we tried fetching values directly by using GET request
@@ -100,31 +40,135 @@ export default class ListRegistrations extends Component {
         });
     };
 
-    componentDidMount() {
+    /*
+listenForItems uses fireBase suported API to get data snapshot.
+It is easier to traverse through database using fireBase API.
+So currently using this.
+*/
+    listenForItems = (itemsRef) => {
+        itemsRef.on('value', (snap) => {
 
+            // get children as an array
+            var arrayItems1 = [];
+            snap.forEach((child) => {
+
+                arrayItems1.push({
+                    name: child.val().name,
+                    _key: child.key,
+                    email: child.val().email,
+                    mobile: child.val().mobile
+                });
+            });
+            //console.log(items)
+            this.setState({
+                data: [...this.state.data, ...arrayItems1]
+            });
+        });
+    }
+
+    updateEvent = (eventName) => {
+        this.setState({ selectedEvent: eventName })
+
+        console.log(eventName);
+        this.getParticipantsForEvent(eventName);
+    }
+
+    getParticipantsForEvent = (txtEventID) => {
+
+        eventRegRef = firebase.database().ref().child('events/' + [txtEventID] + '/registrations');
+        eventRegRef.once('value', (snap) => {
+
+           //this.state.data.length  = 0;
+           var itemsReg = [];
+            console.log(snap.val());
+            if (snap.val() == null)
+                console.log("No registered participants for the event!")
+            else
+                snap.forEach((child) => {
+                    //iterate registrations node for ID
+                    refReg = this.itemsRef.child(child.key);
+                    //console.log(refReg);
+                    refReg.once('value', (snap2) => {
+                        console.log(snap2.val().name + snap2.val().email + snap2.val().mobile);
+                        //put these in state to display in flatList
+                       // this.state.data.length  = [];
+                       itemsReg.push({
+                            name: snap2.val().name,
+                            _key: child.key,
+                            email: snap2.val().email,
+                            mobile: snap2.val().mobile
+                        });
+                    });
+                    // this.setState({
+                    //         data: [...this.state.data, ...itemsReg]},
+                    //         () => {console.log(this.state.data)});
+                });
+
+           //console.log(this.state.data);
+            this.setState({
+                data: [...this.state.data, ...itemsReg]}, 
+                () => {console.log(this.state.data)});
+        });
+
+    }
+
+
+    loadEvents = (myref) => {
+        myref.on('value', (snap) => {
+            var items = [];
+            // get children as an array
+            snap.forEach((child) => {
+
+                //set default selection for picker. First item in event list
+                if (this.state.selectedEvent === '')
+                    this.setState({ selectedEvent: child.key })
+
+                items.push({
+                    eventName: child.val().eventName,
+                    _key: child.key,
+                });
+            });
+
+            console.log(items)
+            this.setState({
+                eventList: [...this.state.eventList, ...items]
+            });
+        });
+
+    }
+
+    componentDidMount() {
         this.loadEvents(firebase.database().ref().child('events'));
 
         // this.fetchData();  //- uses fetch API
-        this.listenForItems(this.itemsRef); //Uses fireBase API. easier to traverse
-
-
+        // this.listenForItems(this.itemsRef); //Uses fireBase API. easier to traverse
+        console.log(this.state.selectedEvent);
+        this.getParticipantsForEvent(this.state.selectedEvent);
     }
 
     renderItem({ item, index }) {
         return (
             <View style={styles.separator}>
                 <Text style={styles.item}>{item.name} (</Text>
-                {<Text style={styles.subItem}>{item.email} )</Text>
-               /* <Text style={styles.subItem}>{item.mobile}</Text> */}
+                <Text style={styles.subItem}>{item.email} )</Text>
             </View>
         );
+    }
+
+    displayPickerItems = (events) => {
+        return events.map((data) => {
+            return (
+                <Picker.Item label={data.eventName}
+                    value={data._key}
+                    key={data._key} />)
+        })
     }
 
     render() {
         return (
             <View style={styles.viewStyle}>
                 <Text style={styles.formHeading}>View Registrations</Text>
-                
+
                 <Picker
                     style={styles.eventPicker} itemStyle={styles.eventPickerItem}
                     mode="dropdown"
@@ -132,12 +176,13 @@ export default class ListRegistrations extends Component {
                     {this.displayPickerItems(this.state.eventList)}
                 </Picker>
 
-                { <FlatList style={styles.listStyle}
+                <FlatList style={styles.listStyle}
                     marginBottom={5}
                     data={this.state.data}
+                    extraData={this.state.selectedEvent}
                     renderItem={this.renderItem}
                     keyExtractor={(item, index) => index.toString()}
-                />}
+                />
 
                 <Text>{this.state.selectedEvent}</Text>
             </View >
@@ -168,8 +213,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignContent: 'center',
         //justifyContent: 'center',
-       // borderWidth: 0.5,
-       // borderColor: 'grey',
+        // borderWidth: 0.5,
+        // borderColor: 'grey',
     },
     item: {
         padding: 5,

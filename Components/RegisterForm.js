@@ -48,12 +48,15 @@ export default class RegisterForm extends Component {
       
         console.log(txtEventName);
         // Write data to registrations node.
-        firebase.database().ref().child('registrations').push({
+         newRef = firebase.database().ref().child('registrations').push({
             "name": txtName,
             "email": txtEmail,
             "mobile": txtMobile,
             "employer": txtEmployer,
             "jobTitle": txtJobTitle});
+
+            const newID = newRef.key; //fireBase generated key to save unders events
+            console.log(newID);
 
         //Find the right node under events to add the new participants's name/id.
         this.itemsRef.once('value', (snap) => {
@@ -64,7 +67,8 @@ export default class RegisterForm extends Component {
                     if (child.val().eventName.localeCompare(txtEventName) === 0)
                     {
                         //append eventName key to events node. set it to true.
-                        this.itemsRef.child(child.key + '/registrations').push({[txtName]: 'true'});
+                      //  this.itemsRef.child(child.key + '/registrations').push({[txtName]: 'true'});
+                     this.itemsRef.child(child.key + '/registrations').update({[newID]: 'true'}); //update will not add fireBase generated uique key. 
                     }
                 });
      });
