@@ -69,7 +69,7 @@ So currently using this.
     updateEvent = (eventName) => {
         this.setState({ selectedEvent: eventName })
 
-        console.log(eventName);
+       // console.log(eventName);
         this.getParticipantsForEvent(eventName);
     }
 
@@ -78,38 +78,32 @@ So currently using this.
         eventRegRef = firebase.database().ref().child('events/' + [txtEventID] + '/registrations');
         eventRegRef.once('value', (snap) => {
 
-           //this.state.data.length  = 0;
-           var itemsReg = [];
-            console.log(snap.val());
             if (snap.val() == null)
                 console.log("No registered participants for the event!")
             else
-                snap.forEach((child) => {
+                {
+                    this.state.data.length  = 0;
+                    var itemsReg = [];
+                    snap.forEach((child) => {
                     //iterate registrations node for ID
                     refReg = this.itemsRef.child(child.key);
-                    //console.log(refReg);
                     refReg.once('value', (snap2) => {
-                        console.log(snap2.val().name + snap2.val().email + snap2.val().mobile);
-                        //put these in state to display in flatList
-                       // this.state.data.length  = [];
-                       itemsReg.push({
+                       // console.log(snap2.val().name + snap2.val().email + snap2.val().mobile);
+                        //put these in state to display in flatList.
+                        // directly writing to state is not correct. But setState in not working correctly.
+                        // so forced to do it.
+                       this.state.data.push({
                             name: snap2.val().name,
                             _key: child.key,
                             email: snap2.val().email,
                             mobile: snap2.val().mobile
                         });
                     });
-                    // this.setState({
-                    //         data: [...this.state.data, ...itemsReg]},
-                    //         () => {console.log(this.state.data)});
-                });
-
-           //console.log(this.state.data);
-            this.setState({
-                data: [...this.state.data, ...itemsReg]}, 
-                () => {console.log(this.state.data)});
+                }
+                );
+                // this.setState({data: [...this.state.data, ...itemsReg]});
+            }
         });
-
     }
 
 
