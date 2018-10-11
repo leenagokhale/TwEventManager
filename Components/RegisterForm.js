@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, Picker } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, Picker, Button } from 'react-native';
 import firebase from '../Config/FireBaseConfig'
 
 export default class RegisterForm extends Component {
@@ -17,7 +17,6 @@ export default class RegisterForm extends Component {
             employer: '',
             jobTitle: ''
         }
-
     }
 
     // This function writes data to fireBase using fetch API.
@@ -60,19 +59,18 @@ export default class RegisterForm extends Component {
 
         //Find the right node under events to add the new participants's name/id.
         this.itemsRef.once('value', (snap) => {
-                // get children as an array
-                //console.log(snap.val())
-                snap.forEach((child) => {
-                    console.log(child.val().eventName)
-                    if (child.val().eventName.localeCompare(txtEventName) === 0)
-                    {
-                        //append eventName key to events node. set it to true.
-                      //  this.itemsRef.child(child.key + '/registrations').push({[txtName]: 'true'});
-                    // this.itemsRef.child(child.key + '/registrations').update({[newID]: 'true'}); //update will not add fireBase generated uique key. 
-                    this.itemsRef.child(child.key + '/registrations').update({[newID]: [txtName]}); //update will not add fireBase generated uique key. 
-                    }
-                });
-     });
+            // get children as an array
+            //console.log(snap.val())
+            snap.forEach((child) => {
+                console.log(child.val().eventName)
+                if (child.val().eventName.localeCompare(txtEventName) === 0)
+                {
+                    //append eventName key to events node. set it to participants's name.
+                    //update will not add fireBase generated uique key. 
+                    this.itemsRef.child(child.key + '/registrations').update({[newID]: txtName}); 
+                }
+            });
+        });
     }
 
     updateEvent = (eventName) => {
@@ -95,7 +93,7 @@ export default class RegisterForm extends Component {
                 });
             });
 
-        console.log(items)
+        //console.log(items)
         this.setState({
             eventList: [...this.state.eventList, ...items]
         });
@@ -109,60 +107,67 @@ export default class RegisterForm extends Component {
 
     componentDidMount() {
         this.loadEvents(this.itemsRef);
-
-       /* if (this.state.selectedEvent === '' || this.state.eventList.length > 0)
-        {
-            const key = Object.keys(this.state.eventList)[0];
-            console.log(key);
-            this.setState({ selectedEvent: this.state.eventList[key] })
-        }*/
     }
 
     render() {
         return (
             <View style={styles.viewStyle}>
-                <Text style={styles.formHeading}>Registration for event</Text>
-                <Picker
-                    style={styles.eventPicker} itemStyle={styles.eventPickerItem}
-                    mode="dropdown"
-                    selectedValue={this.state.selectedEvent} onValueChange={this.updateEvent}>
 
-                    {this.displayPickerItems(this.state.eventList)}
+                <View style={{alignItems:'center'}}>
+                    <Text style={styles.formHeading}>Registration for event</Text>
+                </View>
 
-                </Picker>
+                <View style={{padding:5, alignItems:'center'}}>
+                    <Picker
+                        style={styles.eventPicker} itemStyle={styles.eventPickerItem}
+                        mode="dropdown"
+                        selectedValue={this.state.selectedEvent} onValueChange={this.updateEvent}>
+                        {this.displayPickerItems(this.state.eventList)}
+                    </Picker>
+                </View>
 
-                <TextInput
-                    style={styles.textInput}
-                    placeholder="  Enter Name"
-                    onChangeText={(text) => { this.setState({ name: text }) }}
-                />
-                <TextInput
-                    style={styles.textInput}
-                    keyboardType={'email-address'}
-                    placeholder="  Email"
-                    onChangeText={(text) => { this.setState({ email: text }) }} />
-                <TextInput
-                    style={styles.textInput}
-                    placeholder="  Mobile Number"
-                    onChangeText={(text) => { this.setState({ mobile: text }) }} />
-                <TextInput
-                    style={styles.textInput}
-                    placeholder="  Current Employer"
-                    onChangeText={(text) => { this.setState({ employer: text }) }} />
-                <TextInput
-                    style={styles.textInput}
-                    placeholder="  Current Job Title"
-                    onChangeText={(text) => { this.setState({ jobTitle: text }) }} />
+                {/* <View style={{alignItems:'center'}}>
+                    <Text style={{padding:5}}>Enter Participant's details below</Text>
+                </View> */}
+                <View style={{flex: 1, padding:10, alignItems:'center'}}>   
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder="  Enter Name"
+                        onChangeText={(text) => { this.setState({ name: text }) }}
+                    />
+                    <TextInput
+                        style={styles.textInput}
+                        keyboardType={'email-address'}
+                        placeholder="  Email"
+                        onChangeText={(text) => { this.setState({ email: text }) }} />
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder="  Mobile Number"
+                        onChangeText={(text) => { this.setState({ mobile: text }) }} />
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder="  Current Employer"
+                        onChangeText={(text) => { this.setState({ employer: text }) }} />
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder="  Current Job Title"
+                        onChangeText={(text) => { this.setState({ jobTitle: text }) }} />
+                </View>
+                <Text>Would you like to hear from Thoughtworks-Chk boxes</Text>
 
-                <Text>Would you like to here from Thoughtworks-Chk boxes</Text>
+                {/* <Text>{this.state.selectedEvent}</Text> */}
 
-                <Text>{this.state.selectedEvent}</Text>
                 <TouchableOpacity
                     style={styles.submitButton}
                     onPress={
                         () => this.submitPressedFireBaseAPI(this.state.name, this.state.email, this.state.mobile, this.state.employer, this.state.jobTitle, this.state.selectedEvent)}>
                     <Text style={styles.submitButtonText}> Submit </Text>
                 </TouchableOpacity>
+                
+                <Button
+                    title="Go to View Registrations"
+                    onPress={() => this.props.navigation.navigate('ListRegistrations')}
+                />
 
             </View >
         );
@@ -172,13 +177,16 @@ export default class RegisterForm extends Component {
 const styles = StyleSheet.create({
     viewStyle: {
         flex: 1,
+       // alignContent:'center',
     },
 
     textInput: {
-        margin: 15,
-        height: 40,
+        margin: 8,
+        height: 35,
         backgroundColor: 'white',
-        fontSize: 15
+        fontSize: 15,
+        width: "90%",
+    
     },
     submitButton: {
         backgroundColor: 'steelblue',
@@ -198,7 +206,7 @@ const styles = StyleSheet.create({
         //fontWeight: 'bold',
     },
     eventPicker: {
-        // width: 200,
+        width: "90%",
         height: 100,
         // backgroundColor: '#FFF0E0',
         borderColor: 'grey',

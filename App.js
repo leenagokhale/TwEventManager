@@ -61,26 +61,37 @@ const NewTabs = createBottomTabNavigator({
 );
 
 const RootStack = createStackNavigator({
-  CreateEvent: { screen: CreateEvent },
+  MockCreateEvent: { screen: MockCreateEvent },
   MockRegister: { screen: MockRegister }
+},
+  {
+    initialRouteName: 'MockCreateEvent',
+  }
+);
+
+const NewRootStack = createStackNavigator({
+  CreateEvent: { screen: CreateEvent },
+  RegisterForm: { screen: RegisterForm },
+  ListRegistrations: {screen: ListRegistrations}
 },
   {
     initialRouteName: 'CreateEvent',
   }
 );
 
+
 export default class App extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        { 
-          //  <RegisterForm /> 
-            <ListRegistrations /> 
-            /*<CreateEvent />*/
-           } 
-      </View> 
+     // <View style={styles.container}>
+       // { 
+          // <RegisterForm /> 
+          // <ListRegistrations /> 
+          // <CreateEvent />
+          <NewRootStack /> 
+       // } 
+      //</View> 
     /*  <NewTabs /> */
-      /*<RootStack /> */
       
     );
   }

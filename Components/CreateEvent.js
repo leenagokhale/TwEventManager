@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Button } from 'react-native';
 
 class CreateEvent extends Component {
 
@@ -31,29 +31,39 @@ class CreateEvent extends Component {
 
   render() {
     return (
-      <View >
-        
-        <Text style={styles.formHeading}>Create New Event</Text>
-        <TextInput
-          style={styles.textInput}
-          placeholder="  Enter Event Name"
-          onChangeText={(text) => { this.setState({ eventName: text }) }}
+      <View style={{flex:1}}>
+        <View style={{flex:1}}> 
+          <View style={{alignItems:'center'}}>
+            <Text style={styles.formHeading}>Create New Event</Text>
+          </View>
+          <TextInput
+            style={styles.textInput}
+            placeholder="  Enter Event Name"
+            onChangeText={(text) => { this.setState({ eventName: text }) }}
+          />
+          <TextInput
+            style={styles.textInput}
+            placeholder="  Event Description"
+            onChangeText={(text) => { this.setState({ eventDesc: text }) }} />
+
+          <Text>{this.state.eventName}</Text>
+          <Text>{this.state.eventDesc}</Text>
+
+          <TouchableOpacity
+            style={styles.submitButton}
+            onPress={
+              () => this.createEventPressed(this.state.eventName, this.state.eventDesc)}>
+            <Text style={styles.submitButtonText}> Create Event </Text>
+          </TouchableOpacity>
+        </View>
+           
+        <Button
+        // style={{bottom:10}}
+          title="Go to Registration"
+          onPress={() => this.props.navigation.navigate('RegisterForm')}
+          //other available properties are this.props.navigation.goBack()
+          // and navigation.popToTop()
         />
-        <TextInput
-          style={styles.textInput}
-          placeholder="  Event Description"
-          onChangeText={(text) => { this.setState({ eventDesc: text }) }} />
-
-        <Text>{this.state.eventName}</Text>
-        <Text>{this.state.eventDesc}</Text>
-
-        <TouchableOpacity
-          style={styles.submitButton}
-          onPress={
-            () => this.createEventPressed(this.state.eventName, this.state.eventDesc)}>
-          <Text style={styles.submitButtonText}> Create Event </Text>
-        </TouchableOpacity>
-
       </View >
     );
   }

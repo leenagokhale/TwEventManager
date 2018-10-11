@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, FlatList, Alert, Picker, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Alert, Picker, Button} from 'react-native';
 import firebase from '../Config/FireBaseConfig'
 
 //We have put firebase apiKey related details in a seperate file. 
@@ -208,36 +208,52 @@ So currently using this.
     render() {
         return (
             <View style={styles.viewStyle}>
-                <Text style={styles.formHeading}>View Registrations</Text>
+                <View style={{alignItems:'center'}}>
+                    <Text style={styles.formHeading}>View Registrations</Text>
+                </View>
 
-                <Picker
-                    style={styles.eventPicker} itemStyle={styles.eventPickerItem}
-                    mode="dropdown"
-                    selectedValue={this.state.selectedEvent} onValueChange={this.updateEvent}>
-                    {this.displayPickerItems(this.state.eventList)}
-                </Picker>
+                <View style={{paddingTop: 5, padding:12, alignItems:'center'}}>
+                    <Picker
+                        style={styles.eventPicker} itemStyle={styles.eventPickerItem}
+                        mode="dropdown"
+                        selectedValue={this.state.selectedEvent} onValueChange={this.updateEvent}>
+                        {this.displayPickerItems(this.state.eventList)}
+                    </Picker>
+                </View>
 
-                <Text></Text>
-                <Text>Registrations Count - {this.state.registrationsCount}</Text>
-                <Text></Text>
-                {this.state.registrationsCount > 0 ?  
-                <FlatList style={styles.listStyle}
-                    marginBottom={10}
-                    data={this.state.data}
-                    // extraData={this.state.selectedEvent}
-                    ItemSeparatorComponent = {this.FlatListItemSeparator}
-                    renderItem={({item}) => <Text style={{padding:6}}onPress={this.GetItem.bind(this, item.name)} > {item.name} </Text>}
-                    keyExtractor={(item, index) => index.toString()}
-                    ListHeaderComponent={this.Render_FlatList_Sticky_header}
-                    stickyHeaderIndices={[0]}
-                />
-                :
-                <FlatList style={styles.listStyle}
-                    marginBottom={10}
-                    data={[]}
-                    ListEmptyComponent={this.ListEmptyView} /> }
                 
-                <Text>Event ID - {this.state.selectedEvent}</Text>
+                <View style={{flex:1, alignItems:'center'}}>
+                <Text></Text>
+                <Text></Text>
+               
+                    <View style={{padding: 12, alignItems:'center', backgroundColor: 'steelblue'}}>
+                        <Text>Registrations Count - {this.state.registrationsCount}</Text>
+                    </View>
+                
+                    {this.state.registrationsCount > 0 ?  
+                        <FlatList style={styles.listStyle}
+                            marginBottom={10}
+                            data={this.state.data}
+                            // extraData={this.state.selectedEvent}
+                            ItemSeparatorComponent = {this.FlatListItemSeparator}
+                            renderItem={({item}) => <Text style={{padding:6}}onPress={this.GetItem.bind(this, item.name)} > {item.name} </Text>}
+                            keyExtractor={(item, index) => index.toString()}
+                            ListHeaderComponent={this.Render_FlatList_Sticky_header}
+                            stickyHeaderIndices={[0]}
+                        />
+                        :
+                        <FlatList style={styles.listStyle}
+                            marginBottom={10}
+                            data={[]}
+                            ListEmptyComponent={this.ListEmptyView} /> }
+                        {/* <Text></Text>
+                        <Text></Text> */}
+                </View>
+                {/* <Text>Event ID - {this.state.selectedEvent}</Text> */}
+                <Button
+                    title="Go to Create Event"
+                    onPress={() => this.props.navigation.navigate('CreateEvent')}
+                />
             </View >
         );
     }
@@ -251,18 +267,20 @@ const styles = StyleSheet.create({
     },
     viewStyle: {
         flex: 1,
-        justifyContent: 'center',
+        //justifyContent: 'center',
     },
     listStyle: {
         flex: 1,
+        width: "90%",
         padding: 10,
-        height: 100,
+        //height: 100,
         borderWidth: 0.5,
         borderColor: 'grey',
         //backgroundColor: '#FFF0E0',
     },
     
     eventPicker: {
+        width: "90%",
         height: 100,
         // backgroundColor: '#FFF0E0',
         borderColor: 'grey',
@@ -278,7 +296,8 @@ const styles = StyleSheet.create({
         fontSize:12,
         height: 30, 
        // backgroundColor: '#00BCD4', 
-       backgroundColor: 'steelblue', 
+       //backgroundColor: 'steelblue', 
+       backgroundColor: 'lightgrey', 
         alignItems: 'center', 
         justifyContent: 'center'
       }

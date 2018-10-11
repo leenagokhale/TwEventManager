@@ -2,7 +2,7 @@
 ========================================================================
 reference links -
 
-setState issues
+setState issues (helped me a lot)
 https://medium.com/@voonminghann/when-to-use-callback-function-of-setstate-in-react-37fff67e5a6c
 
 flatList styles
