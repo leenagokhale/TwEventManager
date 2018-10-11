@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, FlatList, Alert, Picker, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 import firebase from '../Config/FireBaseConfig'
-import { Button } from 'react-native-elements';
 
 //We have put firebase apiKey related details in a seperate file. 
 //That file is not put on git. 
@@ -18,8 +17,6 @@ export default class ListRegistrations extends Component {
             registrationsCount: 0,
             eventList: [],
             data: [],
-           // dummyItems: [{name:'Item1'}, {name:'Item2'}]
-
         }
     }
 
@@ -71,33 +68,29 @@ So currently using this.
     }
 
     updateEvent = (eventName) => {
-       // console.log(eventName);
-       //this.setState({ dummyItems: [] })
-        this.setState({ selectedEvent: eventName });
-        this.getParticipantsForEvent(eventName);
+
+       this.setState({ selectedEvent: eventName}, () => {
+            this.getParticipantsForEvent(this.state.selectedEvent);
+        });
     }
 
-   
 
     getParticipantsForEvent = (txtEventID) => {
 
         //console.log(this.state.data);
         eventRegRef = firebase.database().ref().child('events/' + [txtEventID] + '/registrations');
-        eventRegRef.once('value', (snap) => {
+        eventRegRef.on('value', (snap) => {
 
             if (snap.val() == null){
-                this.setState({registrationsCount: 0});
-                this.setState({data: [this.state.data.length, 0]});
-
                 console.log("No registered participants for the event!")
+                this.setState({registrationsCount: 0,
+                    data: []});
             }
             else
                 {
                     var itemsReg = [];
                     var temp =0;
-            
-                    //const temp = snap.getChildrenCount();
-                    //this.state.data.length  = 0; 
+
                     snap.forEach((child) => {
                         temp++;
                         itemsReg.push({
@@ -120,10 +113,11 @@ So currently using this.
                     //     });
                     // });
                     });
+                   
                     //console.log(itemsReg);
-
-                    this.setState({registrationsCount: temp});
-                    this.setState({data: [...this.state.data, ...itemsReg]});
+                    this.setState({
+                        registrationsCount: temp,
+                        data: [...this.state.data, ...itemsReg]});
                 }
             });
     }
@@ -136,8 +130,13 @@ So currently using this.
 
                 //set default selection for picker. First item in event list
                 if (this.state.selectedEvent === '')
-                    this.setState({ selectedEvent: child.key })
-
+                   {
+                    this.setState({ selectedEvent: child.key}, () => {
+                        this.getParticipantsForEvent(this.state.selectedEvent);
+                    });
+            
+                   } //this.setState({ selectedEvent: child.key })
+                
                 items.push({
                     eventName: child.val().eventName,
                     _key: child.key,
@@ -153,42 +152,18 @@ So currently using this.
     }
 
     componentDidMount() {
-        console.log("In Mount");
+       // console.log("In Mount");
         this.loadEvents(firebase.database().ref().child('events'));
 
         // this.fetchData();  //- uses fetch API
         // this.listenForItems(this.itemsRef); //Uses fireBase API. easier to traverse
-
-       // console.log(this.state.selectedEvent);
-        this.getParticipantsForEvent(this.state.selectedEvent);
     }
 
-    renderItem({ item, index }) {
-        return (
-            <View style={styles.separator}>
-                <Text style={styles.item}>{item.name}</Text>
-                {/* <Text style={styles.subItem}>{item.email} )</Text> */}
-            </View>
-        );
-    }
-
+  
     GetItem(txtMsg) {
         Alert.alert(txtMsg);
         // Add code here to display participant details.
     }
-
-    renderNewItem({ item, index }) {
-        return (
-            <TouchableOpacity 
-            onPress={this.GetItem.bind(this, item.name)}>
-          <View
-              style={{ flex: 1, padding:3 }}>
-            <Text>{item.name}</Text>
-          </View>
-        </TouchableOpacity>
-        );
-    }
-
 
     displayPickerItems = (events) => {
         return events.map((data) => {
@@ -250,19 +225,16 @@ So currently using this.
                     marginBottom={10}
                     data={this.state.data}
                     // extraData={this.state.selectedEvent}
-                    // renderItem={this.renderNewItem}
                     ItemSeparatorComponent = {this.FlatListItemSeparator}
                     renderItem={({item}) => <Text style={{padding:6}}onPress={this.GetItem.bind(this, item.name)} > {item.name} </Text>}
                     keyExtractor={(item, index) => index.toString()}
                     ListHeaderComponent={this.Render_FlatList_Sticky_header}
                     stickyHeaderIndices={[0]}
-                    // ListEmptyComponent={this.ListEmptyView}
                 />
                 :
                 <FlatList style={styles.listStyle}
                     marginBottom={10}
                     data={[]}
-                   // renderItem={({item}) => <Text style={{padding:6}}onPress={this.GetItem.bind(this, item.name)} > {item.name} </Text>}
                     ListEmptyComponent={this.ListEmptyView} /> }
                 
                 <Text>Event ID - {this.state.selectedEvent}</Text>
@@ -279,11 +251,8 @@ const styles = StyleSheet.create({
     },
     viewStyle: {
         flex: 1,
-        // marginBottom: 20, 
-        //alignContent: 'center',
         justifyContent: 'center',
     },
-
     listStyle: {
         flex: 1,
         padding: 10,
@@ -291,30 +260,9 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         borderColor: 'grey',
         //backgroundColor: '#FFF0E0',
-        //width : "90%",
-        //left:10,
-      //  position:"absolute",
     },
-    separator: {
-        //flex:1, 
-        flexDirection: 'row',
-        alignContent: 'center',
-        //justifyContent: 'center',
-        //  borderWidth: 0.5,
-        //  borderColor: 'grey',
-    },
-    item: {
-        padding: 5,
-        fontSize: 15,
-        //   height: 30,
-    },
-    subItem: {
-        padding: 5,
-        fontSize: 15,
-        //    height: 20,
-    },
+    
     eventPicker: {
-        // width: 200,
         height: 100,
         // backgroundColor: '#FFF0E0',
         borderColor: 'grey',
@@ -327,12 +275,12 @@ const styles = StyleSheet.create({
     },
     header_style:{
         width: '100%', 
-        //fontSize:12,
-        height: 35, 
-        backgroundColor: '#00BCD4', 
+        fontSize:12,
+        height: 30, 
+       // backgroundColor: '#00BCD4', 
+       backgroundColor: 'steelblue', 
         alignItems: 'center', 
         justifyContent: 'center'
-       
       }
 
 });

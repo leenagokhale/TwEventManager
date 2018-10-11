@@ -2,6 +2,9 @@
 ========================================================================
 reference links -
 
+setState issues
+https://medium.com/@voonminghann/when-to-use-callback-function-of-setstate-in-react-37fff67e5a6c
+
 flatList styles
 https://stackoverflow.com/questions/45580034/react-native-flatlist-separator-between-columns
 
@@ -163,18 +166,18 @@ ref.push({
     date: Firebase.ServerValue.TIMESTAMP
 });
 
- 
-
-flatList render problem
- // refreshing={true}
-// onRefresh={() => this.getParticipantsForEvent(this.state.selectedEvent)}
-                    
-                     { this.state.data.map((value, index) => { 
-                        return <TouchableHighlight key={index} style={{ paddingTop: 4, paddingBottom: 4 }}>
-                            <Text>{ value.name }</Text>
-                            </TouchableHighlight>
-                        })}
-
 
 
 {this.state.registrationsCount > 0 ?  <flatList /> : <Text>No registrations for this event..</Text> }
+
+
+item: {
+        padding: 5,
+        fontSize: 15,
+        //   height: 30,
+    },
+    subItem: {
+        padding: 5,
+        fontSize: 15,
+        //    height: 20,
+    },
