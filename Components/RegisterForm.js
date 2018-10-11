@@ -68,7 +68,8 @@ export default class RegisterForm extends Component {
                     {
                         //append eventName key to events node. set it to true.
                       //  this.itemsRef.child(child.key + '/registrations').push({[txtName]: 'true'});
-                     this.itemsRef.child(child.key + '/registrations').update({[newID]: 'true'}); //update will not add fireBase generated uique key. 
+                    // this.itemsRef.child(child.key + '/registrations').update({[newID]: 'true'}); //update will not add fireBase generated uique key. 
+                    this.itemsRef.child(child.key + '/registrations').update({[newID]: [txtName]}); //update will not add fireBase generated uique key. 
                     }
                 });
      });

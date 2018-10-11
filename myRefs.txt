@@ -5,6 +5,9 @@ reference links -
 flatList styles
 https://stackoverflow.com/questions/45580034/react-native-flatlist-separator-between-columns
 
+flatList header and click onn list item
+https://reactnativecode.com/show-sticky-header-on-flatlist-example/
+
 fireBase sign in
 https://medium.com/@jameshamann/react-native-and-firebase-part-one-simple-authentication-3b233fff5b3f
 
@@ -166,3 +169,12 @@ flatList render problem
  // refreshing={true}
 // onRefresh={() => this.getParticipantsForEvent(this.state.selectedEvent)}
                     
+                     { this.state.data.map((value, index) => { 
+                        return <TouchableHighlight key={index} style={{ paddingTop: 4, paddingBottom: 4 }}>
+                            <Text>{ value.name }</Text>
+                            </TouchableHighlight>
+                        })}
+
+
+
+{this.state.registrationsCount > 0 ?  <flatList /> : <Text>No registrations for this event..</Text> }
