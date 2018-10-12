@@ -128,6 +128,7 @@ So currently using this.
             // get children as an array
             snap.forEach((child) => {
 
+                //ToDo -- call this after forEach loop. May improve performance
                 //set default selection for picker. First item in event list
                 if (this.state.selectedEvent === '')
                    {

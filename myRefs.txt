@@ -2,8 +2,13 @@
 ========================================================================
 reference links -
 
+async await in javaScript
+https://dev.to/johnpaulada/synchronous-fetch-with-asyncawait
+
 setState issues (helped me a lot)
 https://medium.com/@voonminghann/when-to-use-callback-function-of-setstate-in-react-37fff67e5a6c
+console.log AND setState (great article. study properly to understand setState)
+https://medium.com/@agm1984/reacts-setstate-is-a-special-function-and-it-helps-with-asynchronous-concurrency-669eddbe3dd1
 
 flatList styles
 https://stackoverflow.com/questions/45580034/react-native-flatlist-separator-between-columns
@@ -140,26 +145,6 @@ https://console.firebase.google.com/?pli=1
 ============================================
 
 
-position: 'absolute'
-bottom: 0, left:0, right:0
-
-read data from fireBase
-readUserData() {
-    firebase.database().ref('Users/').once('value', function (snapshot) {
-        console.log(snapshot.val())
-    });
-}
-
-update data in firebase
-updateSingleData(email){
-    firebase.database().ref('Users/').update({
-        email,
-    });
-}
-
-flatList style
-numColumns={3}
-
 saving date in fireBase
 ref.push({
     foo: 'bar',
@@ -168,16 +153,9 @@ ref.push({
 
 
 
-{this.state.registrationsCount > 0 ?  <flatList /> : <Text>No registrations for this event..</Text> }
+
+reading string date time from fireBase.
+String time=dataSnapshot.child("timeStamp").getValue().toString(); Long t=Long.parseLong(time);
+Date myDate = new Date(t*1000);
 
 
-item: {
-        padding: 5,
-        fontSize: 15,
-        //   height: 30,
-    },
-    subItem: {
-        padding: 5,
-        fontSize: 15,
-        //    height: 20,
-    },

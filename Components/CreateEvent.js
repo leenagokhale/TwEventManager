@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Button } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Button, DatePickerIOS } from 'react-native';
 
 class CreateEvent extends Component {
 
@@ -9,57 +9,84 @@ class CreateEvent extends Component {
     this.state = {
       eventName: '',
       eventDesc: '',
+      chosenDate: new Date(), //sets todays date.
     }
   }
 
-  createEventPressed = (txteventName, txtDesc) => {
+  clearFormData = () =>{
+    //calling console.log as call back in setState wil make sure it will display after state elemts are set
+    this.setState({
+      eventName: '',
+      eventDesc: '',
+      chosenDate: new Date()
+    }, () => {console.log(this.state.eventName + this.state.eventDesc + this.state.chosenDate);});
+  }
 
-    fetch('https://tweventmanager-db.firebaseio.com//events.json', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        "eventName": txteventName,
-        "eventDesc": txtDesc,
-      }),
-    })
-      .then((response) => response.json())
-    //catch exception
+  createEventPressed = async(txteventName, txtDesc, txtDateTime) => {
+    {
+      await fetch('https://tweventmanager-db.firebaseio.com//events.json', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          "eventName": txteventName,
+          "eventDesc": txtDesc,
+          "eventTiming" : txtDateTime
+          }),
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
+      console.log("Inside fetch block");
+    }
+    this.clearFormData();
+
+  }
+
+  setDate = (newDate) =>{
+    this.setState({chosenDate: newDate});
   }
 
   render() {
     return (
       <View style={{flex:1}}>
+       
         <View style={{flex:1}}> 
+
           <View style={{alignItems:'center'}}>
             <Text style={styles.formHeading}>Create New Event</Text>
           </View>
+
           <TextInput
             style={styles.textInput}
+            value={this.state.eventName}
             placeholder="  Enter Event Name"
             onChangeText={(text) => { this.setState({ eventName: text }) }}
           />
-          <TextInput
-            style={styles.textInput}
+          <TextInput multiline
+            style={styles.multilineText}
+            value={this.state.eventDesc}
             placeholder="  Event Description"
             onChangeText={(text) => { this.setState({ eventDesc: text }) }} />
 
-          <Text>{this.state.eventName}</Text>
-          <Text>{this.state.eventDesc}</Text>
+          <DatePickerIOS
+          date={this.state.chosenDate}
+          onDateChange={this.setDate} />
 
           <TouchableOpacity
             style={styles.submitButton}
-            onPress={
-              () => this.createEventPressed(this.state.eventName, this.state.eventDesc)}>
+            onPress={ 
+              () => this.createEventPressed(this.state.eventName, this.state.eventDesc, this.state.chosenDate.toString())}>
             <Text style={styles.submitButtonText}> Create Event </Text>
           </TouchableOpacity>
         </View>
            
         <Button
-        // style={{bottom:10}}
           title="Go to Registration"
+          value={this.state.chosenDate}
           onPress={() => this.props.navigation.navigate('RegisterForm')}
           //other available properties are this.props.navigation.goBack()
           // and navigation.popToTop()
@@ -70,6 +97,13 @@ class CreateEvent extends Component {
 }
 
 const styles = StyleSheet.create({
+  
+  multilineText: {
+    height: 100,
+    margin: 15,
+    backgroundColor: 'white',
+    fontSize: 15
+  },
   textInput: {
     margin: 15,
     height: 40,

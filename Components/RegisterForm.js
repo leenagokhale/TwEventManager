@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, Picker, Button } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, Picker, Button, Switch } from 'react-native';
 import firebase from '../Config/FireBaseConfig'
 
 export default class RegisterForm extends Component {
 
     constructor(props) {
         super(props);
-        this.itemsRef = firebase.database().ref().child('events');
+        this.eventsRef = firebase.database().ref().child('events');
 
         this.state = {
             selectedEvent: '',
@@ -15,7 +15,8 @@ export default class RegisterForm extends Component {
             email: '',
             mobile: '',
             employer: '',
-            jobTitle: ''
+            jobTitle: '',
+            notificationJobOp: true
         }
     }
 
@@ -39,26 +40,37 @@ export default class RegisterForm extends Component {
         .catch(error => {
             console.log('Error in fecth in RegisterForm' + error);
           });
-            //.then((response) => response.json())
-        //catch exception
     }
 
+    clearFormData = () =>{
+
+        this.setState({
+            name: '',
+            email: '',
+            mobile: '',
+            employer: '',
+            jobTitle: '',
+            notificationJobOp: true
+        }, () => {console.log(this.state.name);});
+      }
+    
     submitPressedFireBaseAPI = (txtName, txtEmail, txtMobile, txtEmployer, txtJobTitle, txtEventName) => {
       
-        console.log(txtEventName);
+        console.log(this.state.notificationJobOp);
+        const regTimeStamp = new Date();
         // Write data to registrations node.
-         newRef = firebase.database().ref().child('registrations').push({
+        newRef = firebase.database().ref().child('registrations').push({
             "name": txtName,
             "email": txtEmail,
             "mobile": txtMobile,
             "employer": txtEmployer,
-            "jobTitle": txtJobTitle});
+            "jobTitle": txtJobTitle,
+            "regDate": regTimeStamp.toString()});
 
-            const newID = newRef.key; //fireBase generated key to save unders events
-            console.log(newID);
+        const newID = newRef.key; //fireBase generated key to save unders events
 
         //Find the right node under events to add the new participants's name/id.
-        this.itemsRef.once('value', (snap) => {
+        this.eventsRef.once('value', (snap) => {
             // get children as an array
             //console.log(snap.val())
             snap.forEach((child) => {
@@ -67,10 +79,12 @@ export default class RegisterForm extends Component {
                 {
                     //append eventName key to events node. set it to participants's name.
                     //update will not add fireBase generated uique key. 
-                    this.itemsRef.child(child.key + '/registrations').update({[newID]: txtName}); 
+                    this.eventsRef.child(child.key + '/registrations').update({[newID]: txtName}); 
                 }
             });
         });
+
+        this.clearFormData();
     }
 
     updateEvent = (eventName) => {
@@ -98,7 +112,6 @@ export default class RegisterForm extends Component {
             eventList: [...this.state.eventList, ...items]
         });
        });
-       
     }
 
     displayPickerItems = (events) => {
@@ -106,7 +119,7 @@ export default class RegisterForm extends Component {
     }
 
     componentDidMount() {
-        this.loadEvents(this.itemsRef);
+        this.loadEvents(this.eventsRef);
     }
 
     render() {
@@ -126,35 +139,59 @@ export default class RegisterForm extends Component {
                     </Picker>
                 </View>
 
-                {/* <View style={{alignItems:'center'}}>
-                    <Text style={{padding:5}}>Enter Participant's details below</Text>
-                </View> */}
                 <View style={{flex: 1, padding:10, alignItems:'center'}}>   
                     <TextInput
                         style={styles.textInput}
-                        placeholder="  Enter Name"
+                        value={this.state.name}
+                        placeholder="  Participant's Name"
                         onChangeText={(text) => { this.setState({ name: text }) }}
                     />
                     <TextInput
                         style={styles.textInput}
+                        value={this.state.email}
                         keyboardType={'email-address'}
                         placeholder="  Email"
                         onChangeText={(text) => { this.setState({ email: text }) }} />
                     <TextInput
                         style={styles.textInput}
+                        value={this.state.mobile}
                         placeholder="  Mobile Number"
                         onChangeText={(text) => { this.setState({ mobile: text }) }} />
                     <TextInput
                         style={styles.textInput}
+                        value={this.state.employer}
                         placeholder="  Current Employer"
                         onChangeText={(text) => { this.setState({ employer: text }) }} />
                     <TextInput
                         style={styles.textInput}
+                        value={this.state.jobTitle}
                         placeholder="  Current Job Title"
                         onChangeText={(text) => { this.setState({ jobTitle: text }) }} />
-                </View>
-                <Text>Would you like to hear from Thoughtworks-Chk boxes</Text>
 
+                    <Text style={{padding:10}}>Would you like to hear from Thoughtworks?</Text>
+
+                     <View style={{flex:1, borderWIDTH: 1, bordercolor: 'red', flexDirection:"row"}}>
+                        <Text style={{padding:5}}>Job Opportunities</Text>
+                        <Switch 
+                            style={{ transform: [{scaleX: .6}, { scaleY: .6}]}}
+                            onValueChange={(boolVal) => { this.setState({ notificationJobOp: boolVal }) }}
+                            value={this.state.notificationJobOp} /> 
+
+                            <Text style={{padding:5}}>Job Opportunities</Text>
+                        <Switch 
+                            style={{ transform: [{scaleX: .6}, { scaleY: .6}]}}
+                            onValueChange={(boolVal) => { this.setState({ notificationJobOp: boolVal }) }}
+                            value={this.state.notificationJobOp} /> 
+                            <Text style={{padding:5}}>Job Opportunities</Text>
+                            
+                        <Switch 
+                            style={{ transform: [{scaleX: .6}, { scaleY: .6}]}}
+                            onValueChange={(boolVal) => { this.setState({ notificationJobOp: boolVal }) }}
+                            value={this.state.notificationJobOp} />    
+                    </View>
+   
+                </View>
+                
                 {/* <Text>{this.state.selectedEvent}</Text> */}
 
                 <TouchableOpacity
@@ -177,7 +214,6 @@ export default class RegisterForm extends Component {
 const styles = StyleSheet.create({
     viewStyle: {
         flex: 1,
-       // alignContent:'center',
     },
 
     textInput: {
@@ -203,7 +239,6 @@ const styles = StyleSheet.create({
         padding: 5,
         fontSize: 25,
         marginTop: 5,
-        //fontWeight: 'bold',
     },
     eventPicker: {
         width: "90%",
@@ -217,4 +252,7 @@ const styles = StyleSheet.create({
         height: 100,
         fontSize: 15
     },
+    notificationSwitch:{
+        margin:15,
+    }
 });
