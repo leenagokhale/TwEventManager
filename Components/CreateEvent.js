@@ -23,7 +23,7 @@ class CreateEvent extends Component {
   }
 
   createEventPressed = async(txteventName, txtDesc, txtDateTime) => {
-    {
+      {
       await fetch('https://tweventmanager-db.firebaseio.com//events.json', {
         method: 'POST',
         headers: {
@@ -43,7 +43,6 @@ class CreateEvent extends Component {
       console.log("Inside fetch block");
     }
     this.clearFormData();
-
   }
 
   setDate = (newDate) =>{

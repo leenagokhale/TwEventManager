@@ -235,7 +235,7 @@ So currently using this.
                         <FlatList style={styles.listStyle}
                             marginBottom={10}
                             data={this.state.data}
-                            // extraData={this.state.selectedEvent}
+                            extraData={this.state.selectedEvent}
                             ItemSeparatorComponent = {this.FlatListItemSeparator}
                             renderItem={({item}) => <Text style={{padding:6}}onPress={this.GetItem.bind(this, item.name)} > {item.name} </Text>}
                             keyExtractor={(item, index) => index.toString()}
@@ -268,22 +268,18 @@ const styles = StyleSheet.create({
     },
     viewStyle: {
         flex: 1,
-        //justifyContent: 'center',
     },
     listStyle: {
         flex: 1,
         width: "90%",
         padding: 10,
-        //height: 100,
         borderWidth: 0.5,
         borderColor: 'grey',
-        //backgroundColor: '#FFF0E0',
     },
     
     eventPicker: {
         width: "90%",
         height: 100,
-        // backgroundColor: '#FFF0E0',
         borderColor: 'grey',
         borderWidth: 0.5,
         borderRadius: 14,
@@ -296,8 +292,6 @@ const styles = StyleSheet.create({
         width: '100%', 
         fontSize:12,
         height: 30, 
-       // backgroundColor: '#00BCD4', 
-       //backgroundColor: 'steelblue', 
        backgroundColor: 'lightgrey', 
         alignItems: 'center', 
         justifyContent: 'center'

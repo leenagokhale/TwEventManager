@@ -16,7 +16,9 @@ export default class RegisterForm extends Component {
             mobile: '',
             employer: '',
             jobTitle: '',
-            notificationJobOp: true
+            notificationJobOp: true,
+            notificationTechRadar: true,
+            notificationNewsletter: true
         }
     }
 
@@ -50,11 +52,14 @@ export default class RegisterForm extends Component {
             mobile: '',
             employer: '',
             jobTitle: '',
-            notificationJobOp: true
+            notificationJobOp: true,
+            notificationTechRadar: true,
+            notificationNewsletter: true
+
         }, () => {console.log(this.state.name);});
       }
     
-    submitPressedFireBaseAPI = (txtName, txtEmail, txtMobile, txtEmployer, txtJobTitle, txtEventName) => {
+    submitPressedFireBaseAPI = (txtName, txtEmail, txtMobile, txtEmployer, txtJobTitle, txtNotiJob, txtNotiTech, txtNotiNews,txtEventName) => {
       
         console.log(this.state.notificationJobOp);
         const regTimeStamp = new Date();
@@ -65,7 +70,10 @@ export default class RegisterForm extends Component {
             "mobile": txtMobile,
             "employer": txtEmployer,
             "jobTitle": txtJobTitle,
-            "regDate": regTimeStamp.toString()});
+            "regDate": regTimeStamp.toString(),
+            "notiJob": txtNotiJob.toString(),
+            "notiTech": txtNotiTech.toString(),
+            "notiNews":txtNotiNews.toString()});
 
         const newID = newRef.key; //fireBase generated key to save unders events
 
@@ -139,7 +147,7 @@ export default class RegisterForm extends Component {
                     </Picker>
                 </View>
 
-                <View style={{flex: 1, padding:10, alignItems:'center'}}>   
+                <View style={{flex: 1, padding:5, alignItems:'center'}}>   
                     <TextInput
                         style={styles.textInput}
                         value={this.state.name}
@@ -168,26 +176,29 @@ export default class RegisterForm extends Component {
                         placeholder="  Current Job Title"
                         onChangeText={(text) => { this.setState({ jobTitle: text }) }} />
 
-                    <Text style={{padding:10}}>Would you like to hear from Thoughtworks?</Text>
-
-                     <View style={{flex:1, borderWIDTH: 1, bordercolor: 'red', flexDirection:"row"}}>
-                        <Text style={{padding:5}}>Job Opportunities</Text>
-                        <Switch 
-                            style={{ transform: [{scaleX: .6}, { scaleY: .6}]}}
-                            onValueChange={(boolVal) => { this.setState({ notificationJobOp: boolVal }) }}
-                            value={this.state.notificationJobOp} /> 
-
+                    <View style={{flex:1, flexDirection:"column"}}>
+                    <Text style={{padding:1}}>Would you like to hear from Thoughtworks?            </Text>
+                        <View style={{flex:1, flexDirection:"row", padding:2}}>
                             <Text style={{padding:5}}>Job Opportunities</Text>
-                        <Switch 
-                            style={{ transform: [{scaleX: .6}, { scaleY: .6}]}}
-                            onValueChange={(boolVal) => { this.setState({ notificationJobOp: boolVal }) }}
-                            value={this.state.notificationJobOp} /> 
-                            <Text style={{padding:5}}>Job Opportunities</Text>
-                            
-                        <Switch 
-                            style={{ transform: [{scaleX: .6}, { scaleY: .6}]}}
-                            onValueChange={(boolVal) => { this.setState({ notificationJobOp: boolVal }) }}
-                            value={this.state.notificationJobOp} />    
+                            <Switch 
+                                style={{ transform: [{scaleX: .6}, { scaleY: .6}]}}
+                                onValueChange={(boolVal) => { this.setState({ notificationJobOp: boolVal }) }}
+                                value={this.state.notificationJobOp} /> 
+                            </View>
+                        <View style={{flex:1, flexDirection:"row", padding:2}}>
+                            <Text style={{padding:5}}>Tech Radar            </Text>
+                            <Switch 
+                                style={{ transform: [{scaleX: .6}, { scaleY: .6}]}}
+                                onValueChange={(boolVal) => { this.setState({ notificationTechRadar: boolVal }) }}
+                                value={this.state.notificationTechRadar} />
+                                </View>
+                        <View style={{flex:1, flexDirection:"row", padding:2}}>
+                            <Text style={{padding:5}}>Newsletter             </Text>
+                            <Switch 
+                                style={{ transform: [{scaleX: .6}, { scaleY: .6}]}}
+                                onValueChange={(boolVal) => { this.setState({ notificationNewsletter: boolVal }) }}
+                                value={this.state.notificationNewsletter} />    
+                        </View>
                     </View>
    
                 </View>
@@ -197,7 +208,7 @@ export default class RegisterForm extends Component {
                 <TouchableOpacity
                     style={styles.submitButton}
                     onPress={
-                        () => this.submitPressedFireBaseAPI(this.state.name, this.state.email, this.state.mobile, this.state.employer, this.state.jobTitle, this.state.selectedEvent)}>
+                        () => this.submitPressedFireBaseAPI(this.state.name, this.state.email, this.state.mobile, this.state.employer, this.state.jobTitle, this.state.notificationJobOp, this.state.notificationTechRadar, this.state.notificationNewsletter, this.state.selectedEvent)}>
                     <Text style={styles.submitButtonText}> Submit </Text>
                 </TouchableOpacity>
                 
@@ -218,7 +229,7 @@ const styles = StyleSheet.create({
 
     textInput: {
         margin: 8,
-        height: 35,
+        height: 30,
         backgroundColor: 'white',
         fontSize: 15,
         width: "90%",
