@@ -11,71 +11,20 @@ import { Platform, StyleSheet, Text, View, TextInput } from 'react-native';
 import RegisterForm from './Components/RegisterForm';
 import ListRegistrations from './Components/ListRegistrations';
 import CreateEvent from './Components/CreateEvent';
+import EventsHome from './Components/EventsHome';
+import RegisterForEvent from './Components/RegisterForEvent';
 
-import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
-import MockRegister from './Components/MockRegister';
-import MockCreateEvent from './Components/MockCreateEvent';
-import MockListRegistrations from './Components/MockListRegistrations';
-import Icon from 'react-native-vector-icons/Ionicons';
-
-
-const NewTabs = createBottomTabNavigator({
-  MockCreateEvent: {
-    screen: MockCreateEvent,
-    navigationOptions: {
-      tabBarLabel: 'Create New Event',
-      tabBarIcon: ({ tintColor }) => (
-        <Icon name="ios-home" color={tintColor} size={24} />
-      )
-    }
-  },
-  MockRegister: {
-    screen: MockRegister,
-    navigationOptions: {
-      tabBarLabel: 'Register',
-      tabBarIcon: ({ tintColor }) => (
-        <Icon name="ios-settings" color={tintColor} size={24} />
-      )
-
-    }
-  },
-  MockListRegistrations: {
-    screen: MockListRegistrations,
-    navigationOptions: {
-      tabBarLabel: 'View Regitrations',
-      tabBarIcon: ({ tintColor }) => (
-        <Icon name="ios-settings" color={tintColor} size={24} />
-      )
-    }
-  },
-},
-  {
-    initialRouteName: 'MockCreateEvent',
-    tabBarOptions:{
-      activeTintColor: 'blue',
-      inactiveTintColor: 'grey',
-      labelStyles:{ fontSize:20 },
-    }
-  }
-);
-
-const RootStack = createStackNavigator({
-  MockCreateEvent: { screen: MockCreateEvent },
-  MockRegister: { screen: MockRegister }
-},
-  {
-    initialRouteName: 'MockCreateEvent',
-  }
-);
 
 const NewRootStack = createStackNavigator({
+  EventsHome: {screen: EventsHome},
   CreateEvent: { screen: CreateEvent },
-  RegisterForm: { screen: RegisterForm },
-  ListRegistrations: {screen: ListRegistrations}
+  RegisterForEvent: { screen: RegisterForEvent },
+ // ListRegistrations: {screen: ListRegistrations}
 },
   {
-    initialRouteName: 'CreateEvent',
+    initialRouteName: 'EventsHome',
   }
 );
 
@@ -97,13 +46,3 @@ export default class App extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // justifyContent: 'center',
-    paddingTop: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'powderblue',
-  },
-});

@@ -2,6 +2,12 @@
 ========================================================================
 reference links -
 
+floating action button on flatList
+https://reactnativecode.com/show-floating-action-button-above-listview/
+
+sending eMail using nodemailer when cild node is is added to  fireBase
+https://stackoverflow.com/questions/39201484/email-notifications-in-firebase
+
 setState async warning - on unmounted components
 https://www.robinwieruch.de/react-warning-cant-call-setstate-on-an-unmounted-component/
 
@@ -151,6 +157,7 @@ reading string date time from fireBase.
 String time=dataSnapshot.child("timeStamp").getValue().toString(); Long t=Long.parseLong(time);
 Date myDate = new Date(t*1000);
 
+Presentational COmponent, Container Component
 
 
 XP workshop

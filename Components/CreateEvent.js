@@ -84,9 +84,9 @@ class CreateEvent extends Component {
         </View>
            
         <Button
-          title="Go to Registration"
+          title="Go to Home"
           value={this.state.chosenDate}
-          onPress={() => this.props.navigation.navigate('RegisterForm')}
+          onPress={() => this.props.navigation.navigate('EventsHome')}
           //other available properties are this.props.navigation.goBack()
           // and navigation.popToTop()
         />
