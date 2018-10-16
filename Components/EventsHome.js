@@ -91,7 +91,8 @@ render() {
                             value={item._key}
                             onPress={() => this.props.navigation.navigate('RegisterForEvent',
                                  {eventID:item._key ,eventName:item.eventName})} title="Register"/>
-                            <Button onPress={this.GetItem.bind(this, item._key, item.eventName)} title="View"/>
+                            <Button onPress={() => this.props.navigation.navigate('ListForEvent',
+                                 {eventID:item._key ,eventName:item.eventName})} title="View"/>
                         </View>)}    
                 keyExtractor={(item, index) => index.toString()}
                 // ListHeaderComponent={this.Render_FlatList_Sticky_header}

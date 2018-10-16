@@ -197,18 +197,6 @@ const styles = StyleSheet.create({
         fontSize: 25,
         marginTop: 5,
     },
-    eventPicker: {
-        width: "90%",
-        height: 100,
-        // backgroundColor: '#FFF0E0',
-        borderColor: 'grey',
-        borderWidth: 0.5,
-        borderRadius: 14,
-    },
-    eventPickerItem: {
-        height: 100,
-        fontSize: 15
-    },
     notificationSwitch:{
         margin:15,
     }
