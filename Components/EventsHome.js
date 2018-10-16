@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button, FlatList, Alert} from 'react-native';
+import { View, Text, StyleSheet, Button, FlatList, Alert, TouchableOpacity} from 'react-native';
 import firebase from '../Config/FireBaseConfig'
+import Icon from 'react-native-vector-icons/Ionicons';
 
 class EventsHome extends Component {
 
@@ -36,9 +37,7 @@ class EventsHome extends Component {
             eventList: items
         }, ()=>console.log(this.state.eventList));
     });
-
 }
-
   
 componentDidMount() {
     console.log("In laod Events");
@@ -57,18 +56,6 @@ FlatListItemSeparator = () => {
     );
 }
 
-GetItem(txtEventID, txtEventName) {
-    Alert.alert(txtEventName);
-    this.setState({
-        selectedEvent: txtEventID
-    });
-}
-
-GoToRegistration(txtEventID, txtEventName) {
-
-
-}
-
 render() {
     return (
     <View View style={styles.viewStyle}>
@@ -77,7 +64,8 @@ render() {
             <View style={{alignItems:'center'}}>
                 <Text style={styles.formHeading}>External Events Orgnization</Text>
             </View>
-
+            <Text></Text>
+            {/* <Text></Text> */}
             <FlatList style={styles.listStyle}
                 marginBottom={10}
                 data={this.state.eventList}
@@ -86,26 +74,31 @@ render() {
                 renderItem={({item}) =>
                     (
                         <View style={{flex:1, flexDirection:"row"}}>
-                            <Text style={{padding:6}}onPress={this.GetItem.bind(this, item._key, item.eventName)} > {item.eventName} </Text>
-                            <Button 
-                            value={item._key}
-                            onPress={() => this.props.navigation.navigate('RegisterForEvent',
-                                 {eventID:item._key ,eventName:item.eventName})} title="Register"/>
-                            <Button onPress={() => this.props.navigation.navigate('ListForEvent',
-                                 {eventID:item._key ,eventName:item.eventName})} title="View"/>
+                            <Text style={{padding:6, width:"60%"}} > {item.eventName} </Text>
+                            
+                            <View style={{flex:1, flexDirection:"row", padding:5}}>
+                                <TouchableOpacity
+                                    style={styles.registerButton}
+                                    onPress={ 
+                                    () => this.props.navigation.navigate('RegisterForEvent',
+                                    {eventID:item._key ,eventName:item.eventName})}>
+                                    <Text style={styles.listButtonText}>Register</Text>
+                                </TouchableOpacity>
+                                 <Text>    </Text>           
+                                <TouchableOpacity
+                                    style={styles.viewButton}
+                                    onPress={ 
+                                    () => this.props.navigation.navigate('ListForEvent',
+                                    {eventID:item._key ,eventName:item.eventName})}>
+                                    {/* <Text style={styles.listButtonText}>View</Text> */}
+                                    {/* <Icon name="list" size={20} /> */}
+                                    <Icon name="ios-list" color='blue' size={20} />
+                                </TouchableOpacity>
+                            </View>
+
                         </View>)}    
                 keyExtractor={(item, index) => index.toString()}
-                // ListHeaderComponent={this.Render_FlatList_Sticky_header}
-                // stickyHeaderIndices={[0]}
             />
-
-            {/* <Text>Event ID - {this.state.selectedEvent}</Text> */}
-          {/* <TouchableOpacity
-            style={styles.submitButton}
-            onPress={ 
-              () => this.createEventPressed(this.state.eventName, this.state.eventDesc, this.state.chosenDate.toString())}>
-            <Text style={styles.submitButtonText}> Create Event </Text>
-          </TouchableOpacity> */}
         </View>
            
         <Button
@@ -121,8 +114,13 @@ const styles = StyleSheet.create({
 
     formHeading: {
         color: 'black',
-        padding: 20,
+        padding: 5,
         fontSize: 25,
+    },
+    buttonInList:{
+       // width: 50,
+        textAlign: 'center',
+        backgroundColor:'red',
     },
     viewStyle: {
         flex: 1,
@@ -134,6 +132,26 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         borderColor: 'grey',
     },
+    registerButton: {
+        backgroundColor: 'steelblue',
+        alignItems: 'center',
+        padding: 7,
+        //margin: 15,
+        height: 30,
+        borderRadius: 10
+      },
+      viewButton:{
+        backgroundColor: 'powderblue',
+        alignItems: 'center',
+        padding: 5,
+        height: 30,
+        borderRadius: 10
+      },
+      listButtonText: {
+        color: 'white',
+        fontSize: 12
+      },
+
 });
 
 export default EventsHome;

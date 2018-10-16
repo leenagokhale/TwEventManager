@@ -110,7 +110,7 @@ export default class ListRegistrations extends Component {
                 <View style={{alignItems:'center'}}>
                     <Text style={styles.formHeading}>View Registrations</Text>
                     {/* <Text>eventID: {this.state.eventID}</Text> */}
-                    <Text style={{fontSize:18}}>Event - {this.state.eventName}</Text>
+                    <Text style={{fontSize:18}}>{JSON.stringify(this.state.eventName)}</Text>
                     <Text></Text>
                     <Text></Text>
                 </View>
@@ -151,7 +151,7 @@ export default class ListRegistrations extends Component {
 const styles = StyleSheet.create({
     formHeading: {
         color: 'black',
-        padding: 20,
+        padding: 5,
         fontSize: 25,
     },
     viewStyle: {

@@ -91,11 +91,11 @@ export default class RegisterForm extends Component {
 
                 <View style={{alignItems:'center'}}>
                     <Text style={styles.formHeading}>Registration for event</Text>
-                    <Text>eventID: {JSON.stringify(eventID)}</Text>
-                    <Text>eventName: {JSON.stringify(eventName)}</Text>
+                    {/* <Text>eventID: {JSON.stringify(eventID)}</Text> */}
+                    <Text style={{fontSize:18}}>{JSON.stringify(eventName)}</Text>
                 </View>
 
-                <View style={{flex: 1, padding:5, alignItems:'center'}}>   
+                <View style={{flex: 1, padding:20, alignItems:'center'}}>   
                     <TextInput
                         style={styles.textInput}
                         value={this.state.name}
@@ -125,7 +125,7 @@ export default class RegisterForm extends Component {
                         onChangeText={(text) => { this.setState({ jobTitle: text }) }} />
 
                     <View style={{flex:1, flexDirection:"column"}}>
-                    <Text style={{padding:1}}>Would you like to hear from Thoughtworks?            </Text>
+                    <Text style={{padding:10}}>Would you like to hear from Thoughtworks?               </Text>
                         <View style={{flex:1, flexDirection:"row", padding:2}}>
                             <Text style={{padding:5}}>Job Opportunities</Text>
                             <Switch 
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
 
     textInput: {
         margin: 8,
-        height: 30,
+        height: 35,
         backgroundColor: 'white',
         fontSize: 15,
         width: "90%",

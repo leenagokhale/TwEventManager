@@ -165,3 +165,12 @@ Clean Code workshop
 Speakers Corner
 Geek Night
 Boot Camp
+
+
+react-native-vector-icons we could use profile AND form or view-sequential
+
+import Icon from 'react-native-vector-icons/Ionicons';
+<ion-icon name="list"></ion-icon>
+<ion-icon name="contact"></ion-icon>
+
+<Icon name="ios-glasses" color='steelblue' size={20} />
