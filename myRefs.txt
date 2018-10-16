@@ -2,6 +2,20 @@
 ========================================================================
 reference links -
 
+sending email from javascript AND FireBase
+https://stackoverflow.com/questions/39201484/email-notifications-in-firebase?rq=1
+https://stackoverflow.com/questions/50610749/send-email-notification-when-firebase-real-time-database-updates
+https://github.com/firebase/functions-samples/blob/master/quickstarts/email-users/functions/index.js
+https://github.com/firebase/functions-samples/tree/master/email-confirmation
+sendgrid email API
+https://console.cloud.google.com/marketplace/details/sendgrid-app/sendgrid-email?pli=1
+
+fireBase AND sendgrid sample
+https://github.com/firebase/functions-samples/tree/Node-8/crashlytics-integration/email-notifier
+
+firebase cloud functions
+https://medium.com/@chintansoni/firebase-cloud-functions-part-1-introduction-to-triggers-all-you-ever-wanted-8008e50ecb70
+
 floating action button on flatList
 https://reactnativecode.com/show-floating-action-button-above-listview/
 
@@ -174,3 +188,16 @@ import Icon from 'react-native-vector-icons/Ionicons';
 <ion-icon name="contact"></ion-icon>
 
 <Icon name="ios-glasses" color='steelblue' size={20} />
+top:260,padding:10,backgroundColor:'powderblue'
+
+npm install nodemailer --save.
+
+firebase.initializeApp({
+  apiKey: '### FIREBASE API KEY ###',
+  authDomain: '### FIREBASE AUTH DOMAIN ###',
+  projectId: '### CLOUD FUNCTIONS PROJECT ID ###'
+  databaseURL: 'https://### YOUR DATABASE NAME ###.firebaseio.com',
+});
+
+// Initialize Cloud Functions through Firebase
+var functions = firebase.functions();

@@ -84,15 +84,16 @@ render() {
                                     {eventID:item._key ,eventName:item.eventName})}>
                                     <Text style={styles.listButtonText}>Register</Text>
                                 </TouchableOpacity>
-                                 <Text>    </Text>           
+                                 <Text>  </Text>           
                                 <TouchableOpacity
                                     style={styles.viewButton}
                                     onPress={ 
                                     () => this.props.navigation.navigate('ListForEvent',
                                     {eventID:item._key ,eventName:item.eventName})}>
                                     {/* <Text style={styles.listButtonText}>View</Text> */}
-                                    {/* <Icon name="list" size={20} /> */}
-                                    <Icon name="ios-list" color='blue' size={20} />
+                                    <Icon name="ios-list" color='blue' size={20} style={{justifyContent:'center',alignItems:'center',flex:1}}>
+                                        {/* <Text style={styles.viewButtonText}> View</Text> */}
+                                    </Icon>       
                                 </TouchableOpacity>
                             </View>
 
@@ -150,6 +151,12 @@ const styles = StyleSheet.create({
       listButtonText: {
         color: 'white',
         fontSize: 12
+      },
+
+      viewButtonText: {
+        color: 'white',
+        fontSize: 12,
+        padding: 5
       },
 
 });

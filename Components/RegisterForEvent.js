@@ -32,7 +32,7 @@ export default class RegisterForm extends Component {
             notificationTechRadar: true,
             notificationNewsletter: true
 
-        }, () => {console.log(this.state.name);});
+        }, () => {Alert.alert("Registration complete!")});
       }
     
     submitPressedFireBaseAPI = (txtEventName, txtName, txtEmail, txtMobile, txtEmployer, txtJobTitle, txtNotiJob, txtNotiTech, txtNotiNews) => {
