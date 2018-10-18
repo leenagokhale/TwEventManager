@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Button, DatePickerIOS } from 'react-native';
+import { Alert, View, Text, StyleSheet, TouchableOpacity, TextInput, Button, DatePickerIOS } from 'react-native';
 
 class CreateEvent extends Component {
 
@@ -19,7 +19,7 @@ class CreateEvent extends Component {
       eventName: '',
       eventDesc: '',
       chosenDate: new Date()
-    }, () => {console.log(this.state.eventName + this.state.eventDesc + this.state.chosenDate);});
+    }, () => {Alert.alert("Event Creation Sucessful!")});
   }
 
   createEventPressed = async(txteventName, txtDesc, txtDateTime) => {

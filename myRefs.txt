@@ -1,6 +1,47 @@
 
-========================================================================
 reference links -
+
+************** saving data to excel format from react native **********
+https://github.com/antonderegt/export-demo/blob/master/src/App.js
+https://www.npmjs.com/package/xlsx
+
+**************sending email from fireBase *****************************
+****** https://rnfirebase.io/
+1. Install fireBase functions.
+install nodemailer npm install nodemailer --save
+
+https://stackoverflow.com/questions/47980573/sending-mail-from-firebase-webapp
+using sendGrid in mobile app
+https://www.appcelerator.com/blog/2014/04/using-the-sendgrid-api-to-send-emails-from-your-mobile-apps/
+
+http://www.emailjs.com/
+
+react AND MailGun
+https://sheelahb.com/blog/how-to-send-email-from-react-without-a-backend/
+
+react-native email from MIT 
+https://github.com/tiaanduplessis/react-native-email
+
+react native communication,
+https://github.com/anarchicknight/react-native-communications
+
+3rd Party email services/servers
+MailGun. SendPulse, SendGrid, Postmark, Mandrill, mailJet
+
+react native fetch API AND SendGrid
+https://github.com/sendgrid/sendgrid-nodejs/issues/222
+https://sendgrid.com/docs/API_Reference/Web_API_v3/Mail/index.html
+
+Navigation with AUthentication good example
+https://www.youtube.com/watch?v=EV1kZzt8Lrc&list=PLy9JCsy2u97nn0Yrf3ioMbRL7guVlzk9d&index=2
+
+Attendance App demo (good)
+https://www.youtube.com/watch?v=F_FoVMGeluk
+
+
+fireBase authentication
+good you tube tutorials from unsure programmer ()
+https://www.youtube.com/watch?v=LJY73nD5bwQ
 
 sending email from javascript AND FireBase
 https://stackoverflow.com/questions/39201484/email-notifications-in-firebase?rq=1
@@ -15,6 +56,8 @@ https://github.com/firebase/functions-samples/tree/Node-8/crashlytics-integratio
 
 firebase cloud functions
 https://medium.com/@chintansoni/firebase-cloud-functions-part-1-introduction-to-triggers-all-you-ever-wanted-8008e50ecb70
+
+*************************************************************************************************
 
 floating action button on flatList
 https://reactnativecode.com/show-floating-action-button-above-listview/
@@ -201,3 +244,4 @@ firebase.initializeApp({
 
 // Initialize Cloud Functions through Firebase
 var functions = firebase.functions();
+XP

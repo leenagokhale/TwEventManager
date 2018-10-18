@@ -20,6 +20,36 @@ export default class ListRegistrations extends Component {
         }
     }
 
+    exportToExcel = () => {
+
+        console.log("In export to excel")
+        let dtlParticipantData =[]; //fill this array with all participant details to send to excel
+
+        this.state.data.forEach((participant) => {
+           
+            tmp = 'registrations/' + participant._key;
+            eventRegRef = firebase.database().ref().child(tmp);
+        
+            eventRegRef.once('value', (snap) => {
+                
+                let dtlEntry = {name: snap.val().name,
+                    email: snap.val().email,
+                    mobile: snap.val().mobile,
+                    employer: snap.val().employer,
+                    jobTitle: snap.val().jobTitle,
+                    regDate: snap.val().regDate,
+                    notiJob: snap.val().notiJob,
+                    notiTech: snap.val().notiTech,
+                    notiNews: snap.val().notiNews};
+
+                dtlParticipantData.push(dtlEntry); });
+        });
+
+        console.log(dtlParticipantData);
+
+        // To Do: Now push this data to excel file.
+    }
+
     getParticipantsForEvent = (txtEventID) => {
 
         tmp = 'events/' + [txtEventID] + '/registrations';
@@ -42,7 +72,7 @@ export default class ListRegistrations extends Component {
                         itemsReg.push({
                             name: child.val(),
                             _key: child.key,
-                             email: child.val().email
+                            // email: child.val().email
                         });
                     });
                    
@@ -108,7 +138,7 @@ export default class ListRegistrations extends Component {
         return (
             <View style={styles.viewStyle}>
                 <View style={{alignItems:'center'}}>
-                    <Text style={styles.formHeading}>View Registrations</Text>
+                    <Text style={styles.formHeading}>Participants Present for</Text>
                     {/* <Text>eventID: {this.state.eventID}</Text> */}
                     <Text style={{fontSize:18}}>{JSON.stringify(this.state.eventName)}</Text>
                     <Text></Text>
@@ -129,8 +159,8 @@ export default class ListRegistrations extends Component {
                             ItemSeparatorComponent = {this.FlatListItemSeparator}
                             renderItem={({item}) => <Text style={{padding:6}}onPress={this.GetItem.bind(this, item.name)} > {item.name} </Text>}
                             keyExtractor={(item, index) => index.toString()}
-                            ListHeaderComponent={this.Render_FlatList_Sticky_header}
-                            stickyHeaderIndices={[0]}
+                            // ListHeaderComponent={this.Render_FlatList_Sticky_header}
+                            // stickyHeaderIndices={[0]}
                         />
                         :
                         <FlatList style={styles.listStyle}
@@ -138,6 +168,11 @@ export default class ListRegistrations extends Component {
                             data={[]}
                             ListEmptyComponent={this.ListEmptyView} /> }
                 </View>
+
+                <Button
+                    title="Save (Excel Format)"
+                        onPress={() => this.exportToExcel()}
+                    />   
 
                 <Button
                     title="Go to Home"

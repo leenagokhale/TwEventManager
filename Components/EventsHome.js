@@ -15,19 +15,25 @@ class EventsHome extends Component {
   }
 
   loadEvents = (myref) => {
-    
+    console.log("In laod Events");
     myref.on('value', (snap) => {
+
         let items = []; items.length=0;
-
         // get children as an array
-        snap.forEach((child) => {
-        
-            //if (this.state.selectedEvent === '')
-             //this.setState({ selectedEvent: child.key});
-
+        snap.forEach((childEvent) => {
+            
+            //below code is to get no of participants for each event
+            let cnt = 0;
+            regRef = myref.child(childEvent.key).child('registrations');
+            regRef.once('value', (snap2) => {
+                cnt = snap2.numChildren();
+                console.log("Children : " + cnt);
+            }); //
+           
             items.push({
-                eventName: child.val().eventName,
-                _key: child.key,
+                eventName: childEvent.val().eventName,
+                _key: childEvent.key,
+                regCnt : cnt
             });
         });
 
@@ -40,8 +46,48 @@ class EventsHome extends Component {
 }
   
 componentDidMount() {
-    console.log("In laod Events");
     this.loadEvents(firebase.database().ref().child('events'));
+}
+
+removeFromFireBase = (myref)=>{
+    myref.remove(function(error) {
+            console.log(error ? "Uh oh, failed to delete!" : "Event deleted!")});
+}
+
+removeEventHandler = (txtEventID) =>{
+
+    //console.log("In remove " +  txtEventID);
+    temp = firebase.database().ref().child('events').child(txtEventID);
+
+    //chk if there are any registrations under this event..
+    // to give warning to user before deletion
+    regRef = temp.child('registrations');
+    regRef.once('value', (snap) => {
+
+        if (snap.val() != null){ //delete comfirmation for event with registration 
+            Alert.alert( 
+                'Delete Confirmation',
+                'Attendance already marked for this event..\n Do u still want to delete this event?',
+                [
+                  {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                  {text: 'OK', onPress: () => this.removeFromFireBase(temp)},
+                ],
+                { cancelable: false }
+              );
+        }
+        else //delete comfirmation for events without any registration 
+        {
+            Alert.alert(
+                'Delete Confirmation',
+                'Do u want to delete this event?',
+                [
+                  {text: 'Cancel', onPress: () => console.log('no registrations Cancel Pressed'), style: 'cancel'},
+                  {text: 'OK', onPress: () => this.removeFromFireBase(temp)},
+                ],
+                { cancelable: false }
+              );
+        }
+    });
 }
 
 FlatListItemSeparator = () => {
@@ -62,7 +108,7 @@ render() {
         <View style={{flex:1, alignItems:'center'}}> 
 
             <View style={{alignItems:'center'}}>
-                <Text style={styles.formHeading}>External Events Orgnization</Text>
+                <Text style={styles.formHeading}>Event Attendance</Text>
             </View>
             <Text></Text>
             {/* <Text></Text> */}
@@ -74,7 +120,7 @@ render() {
                 renderItem={({item}) =>
                     (
                         <View style={{flex:1, flexDirection:"row"}}>
-                            <Text style={{padding:6, width:"60%"}} > {item.eventName} </Text>
+                            <Text style={{padding:6, width:"55%"}} > {item.eventName} </Text>
                             
                             <View style={{flex:1, flexDirection:"row", padding:5}}>
                                 <TouchableOpacity
@@ -82,16 +128,24 @@ render() {
                                     onPress={ 
                                     () => this.props.navigation.navigate('RegisterForEvent',
                                     {eventID:item._key ,eventName:item.eventName})}>
-                                    <Text style={styles.listButtonText}>Register</Text>
+                                    <Text style={styles.listButtonText}>Attendance:{item.regCnt}</Text>
                                 </TouchableOpacity>
-                                 <Text>  </Text>           
+                                 {/* <Text> </Text>            */}
                                 <TouchableOpacity
                                     style={styles.viewButton}
                                     onPress={ 
                                     () => this.props.navigation.navigate('ListForEvent',
                                     {eventID:item._key ,eventName:item.eventName})}>
                                     {/* <Text style={styles.listButtonText}>View</Text> */}
-                                    <Icon name="ios-list" color='blue' size={20} style={{justifyContent:'center',alignItems:'center',flex:1}}>
+                                    <Icon name="ios-list-box" color='royalblue' size={22} style={{justifyContent:'center',alignItems:'center',flex:1}}>
+                                        {/* <Text style={styles.viewButtonText}> View</Text> */}
+                                    </Icon>       
+                                </TouchableOpacity>
+                                {/* <Text></Text>            */}
+                                <TouchableOpacity
+                                    style={styles.removeButton}
+                                    onPress={ ()=> this.removeEventHandler(item._key)}>
+                                    <Icon name="ios-remove-circle" color='maroon' size={22} style={{justifyContent:'center',alignItems:'center',flex:1}}>
                                         {/* <Text style={styles.viewButtonText}> View</Text> */}
                                     </Icon>       
                                 </TouchableOpacity>
@@ -101,7 +155,8 @@ render() {
                 keyExtractor={(item, index) => index.toString()}
             />
         </View>
-           
+        
+        
         <Button
           title="Go to Create New Event"
           onPress={() => this.props.navigation.navigate('CreateEvent')}
@@ -142,7 +197,7 @@ const styles = StyleSheet.create({
         borderRadius: 10
       },
       viewButton:{
-        backgroundColor: 'powderblue',
+        //backgroundColor: 'powderblue',
         alignItems: 'center',
         padding: 5,
         height: 30,
@@ -158,7 +213,13 @@ const styles = StyleSheet.create({
         fontSize: 12,
         padding: 5
       },
-
+      removeButton:{
+        //backgroundColor: 'powderblue',
+        alignItems: 'center',
+        padding: 5,
+        height: 30,
+        borderRadius: 10
+      },
 });
 
 export default EventsHome;

@@ -90,7 +90,7 @@ export default class RegisterForm extends Component {
             <View style={styles.viewStyle}>
 
                 <View style={{alignItems:'center'}}>
-                    <Text style={styles.formHeading}>Registration for event</Text>
+                    <Text style={styles.formHeading}>Attendance</Text>
                     {/* <Text>eventID: {JSON.stringify(eventID)}</Text> */}
                     <Text style={{fontSize:18}}>{JSON.stringify(eventName)}</Text>
                 </View>
@@ -98,28 +98,33 @@ export default class RegisterForm extends Component {
                 <View style={{flex: 1, padding:20, alignItems:'center'}}>   
                     <TextInput
                         style={styles.textInput}
+                        autoCorrect={false}
                         value={this.state.name}
                         placeholder="  Participant's Name"
                         onChangeText={(text) => { this.setState({ name: text }) }}
                     />
                     <TextInput
                         style={styles.textInput}
+                        autoCorrect={false}
                         value={this.state.email}
                         keyboardType={'email-address'}
                         placeholder="  Email"
                         onChangeText={(text) => { this.setState({ email: text }) }} />
                     <TextInput
                         style={styles.textInput}
+                        autoCorrect={false}
                         value={this.state.mobile}
                         placeholder="  Mobile Number"
                         onChangeText={(text) => { this.setState({ mobile: text }) }} />
                     <TextInput
                         style={styles.textInput}
+                        autoCorrect={false}
                         value={this.state.employer}
                         placeholder="  Current Employer"
                         onChangeText={(text) => { this.setState({ employer: text }) }} />
                     <TextInput
                         style={styles.textInput}
+                        autoCorrect={false}
                         value={this.state.jobTitle}
                         placeholder="  Current Job Title"
                         onChangeText={(text) => { this.setState({ jobTitle: text }) }} />
@@ -155,7 +160,7 @@ export default class RegisterForm extends Component {
                     style={styles.submitButton}
                     onPress={
                         () => this.submitPressedFireBaseAPI(eventName, this.state.name, this.state.email, this.state.mobile, this.state.employer, this.state.jobTitle, this.state.notificationJobOp, this.state.notificationTechRadar, this.state.notificationNewsletter)}>
-                    <Text style={styles.submitButtonText}> Submit </Text>
+                    <Text style={styles.submitButtonText}> Mark My Attendance </Text>
                 </TouchableOpacity>
                 
                 <Button
@@ -178,9 +183,8 @@ const styles = StyleSheet.create({
         height: 35,
         backgroundColor: 'white',
         fontSize: 15,
-        width: "90%",
-    
-    },
+        width: "90%"
+     },
     submitButton: {
         backgroundColor: 'steelblue',
         alignItems: 'center',
