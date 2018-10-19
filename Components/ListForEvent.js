@@ -22,84 +22,89 @@ export default class ListRegistrations extends Component {
             eventName: '',
             registrationsCount: 0,
             data: [],
+            attendanceData: []
         }
     }
 
-    exportToExcel = () => {
+    actualSave = (mydata) => {
 
-        console.log("In export to excel")
-        let dtlParticipantData =[]; //fill this array with all participant details to send to excel
+        console.log("In actual save");
+        console.log(mydata);
 
-        this.state.data.forEach((participant) => {
-           
-            tmp = 'registrations/' + participant._key;
-            eventRegRef = firebase.database().ref().child(tmp);
-        
-            eventRegRef.once('value', (snap) => {
-                
-                let dtlEntry = [
-                    snap.val().name,
-                    snap.val().email,
-                    snap.val().mobile,
-                    snap.val().employer,
-                    snap.val().jobTitle,
-                    snap.val().regDate,
-                    snap.val().notiJob,
-                    snap.val().notiTech,
-                    snap.val().notiNews];
+        const ws = XLSX.utils.aoa_to_sheet(mydata);
 
-                dtlParticipantData.push(dtlEntry); });
-        });
-
-        console.log(dtlParticipantData);
-
-        // To Do: Now push this data to excel file.
-        // const wb = XLSX.utils.book_new()
-        // const wsAll = XLSX.utils.aoa_to_sheet(dtlParticipantData)
-        
-        // XLSX.utils.book_append_sheet(wb, wsAll, "Attendance for TW event")
-        // XLSX.writeFile(wb, "tw-export-demo.xlsx")
-
-
-
-        /* original data */
-        // var data1 = [
-        //     {"name":"John", "city": "Seattle"},
-        //     {"name":"Mike", "city": "Los Angeles"},
-        //     {"name":"Zach", "city": "New York"}
-        // ];
-
-        
-        // var data1 = [["John", "Seattle"]];
-        // /* this line is only needed if you are not adding a script tag reference */
-        // //if(typeof XLSX == 'undefined') XLSX = require('xlsx');
-
-        // /* make the worksheet */
-        // //var ws = XLSX.utils.json_to_sheet(data1);
-        // var ws = XLSX.utils.aoa_to_sheet(data1);
-
-        // /* add to workbook */
-        // var wb = XLSX.utils.book_new();
-        // XLSX.utils.book_append_sheet(wb, ws, "People");
-
-        // /* generate an XLSX file */
-        // XLSX.writeFile(wb, "mysheetjs.xlsx");
-
-        let data2=[[1,2,3],[4,5,6]];
-        /* convert AOA back to worksheet */
-        const ws = XLSX.utils.aoa_to_sheet(data2);
-
+        console.log("AT file write")
         /* build new workbook */
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "SheetJS");
 
         /* write file */
         const wbout = XLSX.write(wb, {type:'binary', bookType:"xlsx"});
-        const file = DDP + "sheetjsw.xlsx";
+
+        //DDP for emulator saves in emulator path. We need to test on actual device.
+        //for Emulator I have given fixed path. Change this with DDP compile test on actual device
+        //const file = DDP + "sheetjsw.xlsx"; 
+        const file = "//Users//in-leenag//Development//React-Native//TwEventManager//twsheetjsw.xlsx";
+        console.log("Just before writing ", mydata);
+
         writeFile(file, output(wbout), 'ascii').then((res) =>{
                 Alert.alert("exportFile success", "Exported to " + file);
         }).catch((err) => { Alert.alert("exportFile Error", "Error " + err.message); });
+
+
     }
+    
+    exportToExcel = () => {
+
+        console.log("In export to excel");
+
+        //get array of registrations ID from json
+        regIDs = this.state.data.map(function (obj) {
+        return obj._key;
+        });
+        //console.log(regIDs);
+
+        var names = [["Name", "Email", "Mobile", "Employer", "Job Title", "Date", "Notify Job", "Notify Tech", "Notify News"]];
+        var promises = [];
+
+        // Map the Firebase promises into an array. This is V imp or else 
+        // right data won't go to saving of file.
+        promises = regIDs.map(id => {
+            return firebase.database().ref('registrations/' + id)
+            .once('value', (s) => {
+                //console.log(s.val().name)
+                s.val()
+                })
+        })
+        //once the promises are ready, now make an array of arrays that is needed
+        //for excel saving.
+        Promise.all(promises)
+        .then(results => {
+            results.forEach((snapshot) => {
+                const Name = [
+                            snapshot.val().name , 
+                            snapshot.val().email,
+                            snapshot.val().mobile,
+                            snapshot.val().employer,
+                            snapshot.val().jobTitle,
+                            snapshot.val().regDate,
+                            snapshot.val().notiJob,
+                            snapshot.val().notiTech,
+                            snapshot.val().notiNews
+                        ];
+                names.push(Name);
+            }) ;
+            console.log('Names: ' + names[1])
+            this.actualSave(names);
+
+        })
+        .catch(err => {
+              // handle error
+              console.log(err)
+            })
+    
+    }
+
 
     getParticipantsForEvent = (txtEventID) => {
 

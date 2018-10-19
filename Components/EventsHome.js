@@ -42,7 +42,7 @@ class EventsHome extends Component {
             //eventList: [...this.state.eventList, ...items]
             eventList: items
         }, ()=>console.log(this.state.eventList));
-    });
+    }); 
 }
   
 componentDidMount() {
