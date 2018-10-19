@@ -1,9 +1,29 @@
 
 reference links -
 
+
+git project creation and pushing
+go to project directory and 
+$ git init
+$ git add .
+$ git commit -m "Step 1: Init react app"
+$ git remote add origin https://github.com/your-user-name/export-demo.git
+$ git push -u origin master
+
 ************** saving data to excel format from react native **********
-https://github.com/antonderegt/export-demo/blob/master/src/App.js
+
+https://github.com/antonderegt/export-demo
 https://www.npmjs.com/package/xlsx
+
+for react Native sheetJS 
+ https://github.com/SheetJS/js-xlsx/tree/master/demos/react
+
+go to project directory and 
+$ npm install xlsx
+
+For react native file saving
+npm install react-native-fs --save
+react-native link react-native-fs
 
 **************sending email from fireBase *****************************
 ****** https://rnfirebase.io/
@@ -245,3 +265,11 @@ firebase.initializeApp({
 // Initialize Cloud Functions through Firebase
 var functions = firebase.functions();
 XP
+
+
+got warning while installing xlsx
+ react-native-elements@0.19.1 requires a peer of react-native-vector-icons@^4.2.0 but none is installed. You must install peer dependencies yourself.
+
++ xlsx@0.14.0
+added 11 packages from 3 contributors and audited 36143 packages in 11.773s
+found 0 vulnerabilities

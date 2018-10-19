@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, FlatList, Alert, Button} from 'react-native';
 import firebase from '../Config/FireBaseConfig'
-
 //We have put firebase apiKey related details in a seperate file. 
 //That file is not put on git. 
+
+import { writeFile, DocumentDirectoryPath } from 'react-native-fs';
+import XLSX from 'xlsx'
+
+const output = str => str;
+const DDP = DocumentDirectoryPath + "/";
 
 export default class ListRegistrations extends Component {
 
@@ -32,15 +37,16 @@ export default class ListRegistrations extends Component {
         
             eventRegRef.once('value', (snap) => {
                 
-                let dtlEntry = {name: snap.val().name,
-                    email: snap.val().email,
-                    mobile: snap.val().mobile,
-                    employer: snap.val().employer,
-                    jobTitle: snap.val().jobTitle,
-                    regDate: snap.val().regDate,
-                    notiJob: snap.val().notiJob,
-                    notiTech: snap.val().notiTech,
-                    notiNews: snap.val().notiNews};
+                let dtlEntry = [
+                    snap.val().name,
+                    snap.val().email,
+                    snap.val().mobile,
+                    snap.val().employer,
+                    snap.val().jobTitle,
+                    snap.val().regDate,
+                    snap.val().notiJob,
+                    snap.val().notiTech,
+                    snap.val().notiNews];
 
                 dtlParticipantData.push(dtlEntry); });
         });
@@ -48,6 +54,51 @@ export default class ListRegistrations extends Component {
         console.log(dtlParticipantData);
 
         // To Do: Now push this data to excel file.
+        // const wb = XLSX.utils.book_new()
+        // const wsAll = XLSX.utils.aoa_to_sheet(dtlParticipantData)
+        
+        // XLSX.utils.book_append_sheet(wb, wsAll, "Attendance for TW event")
+        // XLSX.writeFile(wb, "tw-export-demo.xlsx")
+
+
+
+        /* original data */
+        // var data1 = [
+        //     {"name":"John", "city": "Seattle"},
+        //     {"name":"Mike", "city": "Los Angeles"},
+        //     {"name":"Zach", "city": "New York"}
+        // ];
+
+        
+        // var data1 = [["John", "Seattle"]];
+        // /* this line is only needed if you are not adding a script tag reference */
+        // //if(typeof XLSX == 'undefined') XLSX = require('xlsx');
+
+        // /* make the worksheet */
+        // //var ws = XLSX.utils.json_to_sheet(data1);
+        // var ws = XLSX.utils.aoa_to_sheet(data1);
+
+        // /* add to workbook */
+        // var wb = XLSX.utils.book_new();
+        // XLSX.utils.book_append_sheet(wb, ws, "People");
+
+        // /* generate an XLSX file */
+        // XLSX.writeFile(wb, "mysheetjs.xlsx");
+
+        let data2=[[1,2,3],[4,5,6]];
+        /* convert AOA back to worksheet */
+        const ws = XLSX.utils.aoa_to_sheet(data2);
+
+        /* build new workbook */
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "SheetJS");
+
+        /* write file */
+        const wbout = XLSX.write(wb, {type:'binary', bookType:"xlsx"});
+        const file = DDP + "sheetjsw.xlsx";
+        writeFile(file, output(wbout), 'ascii').then((res) =>{
+                Alert.alert("exportFile success", "Exported to " + file);
+        }).catch((err) => { Alert.alert("exportFile Error", "Error " + err.message); });
     }
 
     getParticipantsForEvent = (txtEventID) => {
