@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, FlatList, Alert, Button} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Alert, Button, Linking} from 'react-native';
 import firebase from '../Config/FireBaseConfig'
 //We have put firebase apiKey related details in a seperate file. 
 //That file is not put on git. 
 
 import { writeFile, DocumentDirectoryPath } from 'react-native-fs';
-import XLSX from 'xlsx'
+import XLSX from 'xlsx';
+import Mailer from 'react-native-mail';
 
 const output = str => str;
 const DDP = DocumentDirectoryPath + "/";
@@ -44,7 +45,7 @@ export default class ListRegistrations extends Component {
         //DDP for emulator saves in emulator path. We need to test on actual device.
         //for Emulator I have given fixed path. Change this with DDP compile test on actual device
         //const file = DDP + "sheetjsw.xlsx"; 
-        const file = "//Users//in-leenag//Development//React-Native//TwEventManager//twsheetjsw.xlsx";
+       const file = "//Users//in-leenag//Development//React-Native//TwEventManager//twsheetjsw.xlsx";
         console.log("Just before writing ", mydata);
 
         writeFile(file, output(wbout), 'ascii').then((res) =>{
@@ -105,6 +106,43 @@ export default class ListRegistrations extends Component {
     
     }
 
+
+    sendEmail = () => {
+
+        // Alert.alert("In send email");
+       Linking.openURL('https://mail.google.com/') 
+
+
+      // you need to be on actual device with apple's email app configured.
+      // for using react-native-mail. https://github.com/chirag04/react-native-mail/issues/69
+      // for now the code is commented but uncomment it to test
+      /*
+      Mailer.mail({
+        subject: 'Attendance ',
+        recipients: ['gokhale.leena@gmail.com'],
+        ccRecipients: ['gokhale.leena@gmail.com'],
+        bccRecipients: ['gokhale.leena@gmail.com'],
+        body: '<b>Attendance for Event</b>',
+        isHTML: true,
+        attachment: {
+          path: '',  // The absolute path of the file from which to read data.
+          type: '',   // Mime Type: jpg, png, doc, ppt, html, pdf, csv
+          name: '',   // Optional: Custom filename for attachment
+        }
+      }, (error, event) => {
+        Alert.alert(
+          error,
+          event,
+          [
+            {text: 'Ok', onPress: () => console.log('OK: Email Error Response')},
+            {text: 'Cancel', onPress: () => console.log('CANCEL: Email Error Response')}
+          ],
+          { cancelable: true }
+        )
+      }); */
+
+        
+    }
 
     getParticipantsForEvent = (txtEventID) => {
 
@@ -228,6 +266,11 @@ export default class ListRegistrations extends Component {
                 <Button
                     title="Save (Excel Format)"
                         onPress={() => this.exportToExcel()}
+                    />   
+                
+                <Button
+                    title="Send Email"
+                        onPress={() => this.sendEmail()}
                     />   
 
                 <Button

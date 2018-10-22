@@ -130,3 +130,23 @@ exports.newSendMail = functions.https.onRequest((req, res) =>{
 
 //To enable google billing account
 // https://console.cloud.google.com/home/dashboard?project=neon-griffin-206910
+
+
+// https://console.cloud.google.com/functions/list?project=tweventmanager-db
+
+
+// Firebase console :
+// https://console.cloud.google.com/home/dashboard?project=tweventmanager-db&_ga=2.118900481.-900820003.1539680228
+
+/* Hi Aniket,
+
+I am working on an assignment from recruitment team.  
+I need few things set up for the same. How do i initiate this ? 
+pls guide 
+
+The project needs 
+1. iPad device for testing (for a week). (The application is supposed to work on iPad.)
+2. One generic email account creation like  - 'TwRecruitment' or similar 
+(This is needed to give then access to project database.)
+
+*/

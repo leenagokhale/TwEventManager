@@ -10,6 +10,11 @@ $ git commit -m "Step 1: Init react app"
 $ git remote add origin https://github.com/your-user-name/export-demo.git
 $ git push -u origin master
 
+********************* promise in jS ***********************************
+https://medium.com/@justintulk/how-to-query-arrays-of-data-in-firebase-aa28a90181ba
+
+https://stackoverflow.com/questions/48964499/loop-through-data-to-pull-array-of-firebase-values
+
 ************** saving data to excel format from react native **********
 
 https://github.com/antonderegt/export-demo
@@ -17,6 +22,8 @@ https://www.npmjs.com/package/xlsx
 
 for react Native sheetJS 
  https://github.com/SheetJS/js-xlsx/tree/master/demos/react
+
+https://github.com/SheetJS/js-xlsx/blob/master/demos/react/react-native.js
 
 go to project directory and 
 $ npm install xlsx
@@ -26,6 +33,21 @@ npm install react-native-fs --save
 react-native link react-native-fs
 
 **************sending email from fireBase *****************************
+Following is working in sanding email.
+
+1. Use 'Linking' this shud open up email on the device and send email
+
+2. Programatically you can send using react-native-mail
+https://www.npmjs.com/package/react-native-mail
+
+npm i --save react-native-mail
+react-native link
+
+Then add the code to your programme
+This will work only on actual device. Not emulator. with apple's email app configured
+
+3. 
+
 ****** https://rnfirebase.io/
 1. Install fireBase functions.
 install nodemailer npm install nodemailer --save
@@ -273,3 +295,10 @@ got warning while installing xlsx
 + xlsx@0.14.0
 added 11 packages from 3 contributors and audited 36143 packages in 11.773s
 found 0 vulnerabilities
+
+
+
+
+
+
+
