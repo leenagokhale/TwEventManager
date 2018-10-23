@@ -41,18 +41,18 @@ export default class ListRegistrations extends Component {
 
         /* write file */
         const wbout = XLSX.write(wb, {type:'binary', bookType:"xlsx"});
+        filnameNospaces = "tw-event-" + this.state.eventName.replace(/\s/g, "") + ".xlxs";
+        console.log("file name : " + filnameNospaces); 
 
         //DDP for emulator saves in emulator path. We need to test on actual device.
         //for Emulator I have given fixed path. Change this with DDP compile test on actual device
-        //const file = DDP + "sheetjsw.xlsx"; 
-       const file = "//Users//in-leenag//Development//React-Native//TwEventManager//twsheetjsw.xlsx";
-        console.log("Just before writing ", mydata);
+        //const file = DDP + filnameNospaces; 
+       const file = "//Users//in-leenag//Development//React-Native//TwEventManager//" + filnameNospaces;
+       // console.log("Just before writing ", mydata);
 
         writeFile(file, output(wbout), 'ascii').then((res) =>{
                 Alert.alert("exportFile success", "Exported to " + file);
         }).catch((err) => { Alert.alert("exportFile Error", "Error " + err.message); });
-
-
     }
     
     exportToExcel = () => {

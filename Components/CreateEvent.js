@@ -8,15 +8,17 @@ class CreateEvent extends Component {
 
     this.state = {
       eventName: '',
+      eventNameValidated: true,
       eventDesc: '',
       chosenDate: new Date(), //sets todays date.
     }
   }
 
   clearFormData = () =>{
-    //calling console.log as call back in setState wil make sure it will display after state elemts are set
+    //calling console.log as call back in setState will make sure it will display after state elemts are set
     this.setState({
       eventName: '',
+      eventNameValidated:true,
       eventDesc: '',
       chosenDate: new Date()
     }, () => {Alert.alert("Event Creation Sucessful!")});
@@ -24,6 +26,26 @@ class CreateEvent extends Component {
 
   createEventPressed = async(txteventName, txtDesc, txtDateTime) => {
       {
+
+        if (this.state.eventName.trim() == '')
+        {
+            Alert.alert("Event Name can't be empty");
+            return
+        }
+
+        if(! this.state.eventNameValidated)
+        {
+            Alert.alert("Enter valid inputs");
+            return;
+        }
+
+        today = new Date();
+        if(this.state.chosenDate.getTime() < today.getTime())
+        {
+          Alert.alert("Sorry, can't create back dated event.");
+          return;
+        }
+
       await fetch('https://tweventmanager-db.firebaseio.com//events.json', {
         method: 'POST',
         headers: {
@@ -49,6 +71,18 @@ class CreateEvent extends Component {
     this.setState({chosenDate: newDate});
   }
 
+  validateInput = (txtInput, txtType) => {
+
+    if (txtType == 'eventname')
+    {
+        if(txtInput.trim()!='')
+            this.setState({eventNameValidated:true,eventName: txtInput});
+        else{
+            this.setState({eventNameValidated:false, eventName: txtInput});
+        }
+    }
+  }
+
   render() {
     return (
       <View style={{flex:1}}>
@@ -60,10 +94,12 @@ class CreateEvent extends Component {
           </View>
 
           <TextInput
-            style={styles.textInput}
+            style={[styles.textInput, !this.state.eventNameValidated? styles.error:null]}
             value={this.state.eventName}
             placeholder="  Enter Event Name"
-            onChangeText={(text) => { this.setState({ eventName: text }) }}
+           // onChangeText={(text) => { this.setState({ eventName: text }) }}
+           onChangeText={(text) => { this.validateInput(text, 'eventname') }}
+
           />
           <TextInput multiline
             style={styles.multilineText}
@@ -87,8 +123,6 @@ class CreateEvent extends Component {
           title="Go to Home"
           value={this.state.chosenDate}
           onPress={() => this.props.navigation.navigate('EventsHome')}
-          //other available properties are this.props.navigation.goBack()
-          // and navigation.popToTop()
         />
       </View >
     );
@@ -123,7 +157,11 @@ const styles = StyleSheet.create({
     color: 'black',
     padding: 20,
     fontSize: 25,
-  }
+  },
+  error:{
+    borderColor:'red',
+    borderWidth:2
+}
 });
 
 export default CreateEvent;

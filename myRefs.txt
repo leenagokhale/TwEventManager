@@ -1,19 +1,18 @@
 
 reference links -
 
+************* project dependancies ********************************** 
+go to project directory and
 
-git project creation and pushing
-go to project directory and 
-$ git init
-$ git add .
-$ git commit -m "Step 1: Init react app"
-$ git remote add origin https://github.com/your-user-name/export-demo.git
-$ git push -u origin master
+$ npm install --save firebase (Firebase API to get and update data)
 
-********************* promise in jS ***********************************
-https://medium.com/@justintulk/how-to-query-arrays-of-data-in-firebase-aa28a90181ba
+$ npm install xlsx   (to export data in .xlsx format)
 
-https://stackoverflow.com/questions/48964499/loop-through-data-to-pull-array-of-firebase-values
+For react native file saving
+npm install react-native-fs --save  (to actaully save file to device)
+react-native link react-native-fs
+
+npm i --save react-native-mail (to send mail from iOs device)
 
 ************** saving data to excel format from react native **********
 
@@ -32,8 +31,15 @@ For react native file saving
 npm install react-native-fs --save
 react-native link react-native-fs
 
-**************sending email from fireBase *****************************
-Following is working in sanding email.
+********************* promise in jS ***********************************
+https://medium.com/@justintulk/how-to-query-arrays-of-data-in-firebase-aa28a90181ba
+
+https://stackoverflow.com/questions/48964499/loop-through-data-to-pull-array-of-firebase-values
+
+
+**************sending email from react-native *****************************
+
+Following is working in sending email.
 
 1. Use 'Linking' this shud open up email on the device and send email
 
@@ -46,12 +52,14 @@ react-native link
 Then add the code to your programme
 This will work only on actual device. Not emulator. with apple's email app configured
 
-3. 
+********************* fireBase cloud functions *****************************
 
-****** https://rnfirebase.io/
+https://rnfirebase.io/
+
 1. Install fireBase functions.
-install nodemailer npm install nodemailer --save
 
+install nodemailer 
+$ npm install nodemailer --save
 https://stackoverflow.com/questions/47980573/sending-mail-from-firebase-webapp
 using sendGrid in mobile app
 https://www.appcelerator.com/blog/2014/04/using-the-sendgrid-api-to-send-emails-from-your-mobile-apps/
@@ -80,7 +88,6 @@ https://www.youtube.com/watch?v=EV1kZzt8Lrc&list=PLy9JCsy2u97nn0Yrf3ioMbRL7guVlz
 Attendance App demo (good)
 https://www.youtube.com/watch?v=F_FoVMGeluk
 
-
 fireBase authentication
 good you tube tutorials from unsure programmer ()
 https://www.youtube.com/watch?v=LJY73nD5bwQ
@@ -99,13 +106,40 @@ https://github.com/firebase/functions-samples/tree/Node-8/crashlytics-integratio
 firebase cloud functions
 https://medium.com/@chintansoni/firebase-cloud-functions-part-1-introduction-to-triggers-all-you-ever-wanted-8008e50ecb70
 
-*************************************************************************************************
+sending eMail using nodemailer when cild node is is added to  fireBase
+https://stackoverflow.com/questions/39201484/email-notifications-in-firebase
+
+****************** FireBase ************************************
+
+FireBase - 
+https://console.firebase.google.com/?pli=1
+
+fireBase sign in
+https://medium.com/@jameshamann/react-native-and-firebase-part-one-simple-authentication-3b233fff5b3f
+
+Fire base data snap shot
+https://www.firebase.com/docs/web/api/datasnapshot/
+
+structuring fireBase data (many to many relationship) (V good)
+https://www.airpair.com/firebase/posts/structuring-your-firebase-data
+https://www.firebase.com/docs/web/guide/structuring-data.html
+https://stackoverflow.com/questions/41527058/many-to-many-relationship-in-firebase
+https://medium.com/@alfianlosari/firebase-realtime-database-many-to-many-relationship-schema-4155d9647f0f
+
+Always put FireBase specific data in seperate config file.
+
+********************** react Native learning ***********************************
+
+Adding validations in Text input field. 
+https://www.youtube.com/watch?v=Qn4rJ1RMWBk
+
+Adding drop down in react native
+https://stackoverflow.com/questions/45899651/react-native-dropdown-in-a-form-with-list-loading-dynamically
+https://www.youtube.com/watch?v=UiWgN39R9GA
+https://libraries.io/npm/react-native-picker-dropdown
 
 floating action button on flatList
 https://reactnativecode.com/show-floating-action-button-above-listview/
-
-sending eMail using nodemailer when cild node is is added to  fireBase
-https://stackoverflow.com/questions/39201484/email-notifications-in-firebase
 
 setState async warning - on unmounted components
 https://www.robinwieruch.de/react-warning-cant-call-setstate-on-an-unmounted-component/
@@ -124,27 +158,12 @@ https://stackoverflow.com/questions/45580034/react-native-flatlist-separator-bet
 flatList header and click onn list item
 https://reactnativecode.com/show-sticky-header-on-flatlist-example/
 
-fireBase sign in
-https://medium.com/@jameshamann/react-native-and-firebase-part-one-simple-authentication-3b233fff5b3f
-
-Adding drop down in react native
-https://stackoverflow.com/questions/45899651/react-native-dropdown-in-a-form-with-list-loading-dynamically
-https://www.youtube.com/watch?v=UiWgN39R9GA
-https://libraries.io/npm/react-native-picker-dropdown
-
-
-structuring fireBase data (many to many relationship) (V good)
-https://www.airpair.com/firebase/posts/structuring-your-firebase-data
-https://www.firebase.com/docs/web/guide/structuring-data.html
-https://stackoverflow.com/questions/41527058/many-to-many-relationship-in-firebase
-https://medium.com/@alfianlosari/firebase-realtime-database-many-to-many-relationship-schema-4155d9647f0f
-
-
 Navigation example
 https://github.com/react-navigation/react-navigation/tree/master/examples/NavigationPlayground/js
 
-Quick intro to react native (read for JScript, dynamic object keys, destruvturig good)
-http://www.reactnativeexpress.com/
+Quick intro to react native 
+(read for JScript, dynamic object keys, destruvturig good)
+http://www.reactnativeexpress.com/modern_javascript
 
 React native app in 10 days. good starting point for app design
 https://medium.com/@austinhale/building-a-mobile-app-in-10-days-with-react-native-c2a7a524c6b4
@@ -152,37 +171,24 @@ https://medium.com/@austinhale/building-a-mobile-app-in-10-days-with-react-nativ
 css reference color link
 https://www.w3.org/TR/css-color-3/#svg-color
 
-Fire base data snap shot
-https://www.firebase.com/docs/web/api/datasnapshot/
 
 flatlist AND fetch example.
 https://github.com/benawad/flatlists/blob/1_get_data_from_api/src/index.js
 
-
 rendering data in flatlist from fireBase (imp)
 https://stackoverflow.com/questions/47009264/rendering-data-in-flatlist-from-firebase?answertab=votes#tab-top
-
 
 ListView and fetch example
 https://www.youtube.com/watch?v=3oySgymEdqI
 
-
 using fetch API
 https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
-
 
 React native tutorial 
 https://www.youtube.com/watch?v=mkualZPRZCs
 
-
-React native 
-https://facebook.github.io/react-native/docs/getting-started
-
-
 Mosh JS tutorial
 https://www.youtube.com/watch?v=PFmuCDHHpwk
-
-
 
 React-native State API
 https://reactjs.org/docs/react-component.html#setstate
@@ -193,18 +199,14 @@ https://facebook.github.io/react-native/docs/style
 How to Control component dimension
 https://facebook.github.io/react-native/docs/height-and-width
 
-
 Awesome React native - components and libraries
 http://www.awesome-react-native.com/
-
 
 Simple form with fireBase (refered by me to add data to firebase. Uses POST method)
 https://www.techomoro.com/how-to-create-a-simple-contact-form-in-react-native-with-firebase-realtime-database/
 
-
 Display values on screen 
 https://stackoverflow.com/questions/42620177/displaying-values-on-screen-but-not-in-alert-box
-
 
 Save data to fireBase
 https://appdividend.com/2018/04/23/react-native-firebase-example-from-scratch/
@@ -214,12 +216,12 @@ https://firebase.googleblog.com/2016/01/the-beginners-guide-to-react-native-and_
 
 https://devdactic.com/react-native-firebase-todo/
 
-====================================
+*********************** react native project creation and set up ******************
+
 
 to run specific simulator
 react-native run-ios --simulator 'iPad 2'
 or open a project in X code. Run it with simulator of choice. Then do run-ios. It will use the last used simulator
-=====================================
 
 Error about babble dependancy
 https://github.com/facebook/react-native/issues/21310
@@ -230,75 +232,92 @@ npm install --save-dev @babel/runtime
 Or (quitting metro terminal before)
 npm add @babel/runtime npm install
 
+React native 
+https://facebook.github.io/react-native/docs/getting-started
 
 1. After creating project with init, you will get CBuilder related error.  Run below command and run-is again
- 
 react-native start --port=8088
 
 2. Now you will see in simulator red background error 4968 related. To solve this do following. 
 npm install --save-dev @babel/core
 npm install --save-dev @babel/runtime
-===================================
 
 
-onSubmitEditing  - u get this call back only when user press Enter. So not useful for our use case
+***********************************  git related ************************************************************
 
-<ScrollView
+To remove file from git history and repository
+https://www.youtube.com/watch?v=Bo-8EfDpKxA
 
-=======================================
+To remove file from git history and repository
+1. git filter-branch --index-filter 'git rm --cached --ignore-unmatch Components/ListRegistrations.js' HEAD
+2. git push —force 
+3. 
+Use git log to see activity
 
-FireBase - 
-https://console.firebase.google.com/?pli=1
+Git name 
+leenagokhale
 
-============================================
+Show version no
+git —version 
 
-reading string date time from fireBase.
-String time=dataSnapshot.child("timeStamp").getValue().toString(); Long t=Long.parseLong(time);
-Date myDate = new Date(t*1000);
+When you want to take project to git. This will create git folder in your project directory. Generally it is hidden but you ca see it with ls -a command
+git init 
 
-Presentational COmponent, Container Component
+To add file to staging
+git add <file name>
+ 
+To add all files 
+git add .
 
+To remove files from staging
+git rm - cached >filename>
+
+git status
+
+When you get to editor in git through prompt and want to come out of it,
+Press esc, then :q! Or :wq
+
+To commit 
+git commit -m ‘comment/label’ 
+
+gIt ignore - to not add files to the git 
+
+To create your own branch
+git branch <branch name>
+
+To switch to branch
+git checkout <branch name>
+
+To go back to master
+git checkout master
+
+To merge changes 
+git merge <branch name>
+
+ 
+git pull
+Npm install in the project directory
+
+Brew install yarn
+
+(Yarn is a package manager)
+
+git reset --soft HEAD~5
+
+Fixing buid 
+npm run lint -- --fix
+
+git project creation and pushing
+go to project directory and 
+$ git init
+$ git add .
+$ git commit -m "Step 1: Init react app"
+$ git remote add origin https://github.com/your-user-name/export-demo.git
+$ git push -u origin master
+****************************************************************************
 
 XP workshop
 Clean Code workshop
 Speakers Corner
 Geek Night
 Boot Camp
-
-
-react-native-vector-icons we could use profile AND form or view-sequential
-
-import Icon from 'react-native-vector-icons/Ionicons';
-<ion-icon name="list"></ion-icon>
-<ion-icon name="contact"></ion-icon>
-
-<Icon name="ios-glasses" color='steelblue' size={20} />
-top:260,padding:10,backgroundColor:'powderblue'
-
-npm install nodemailer --save.
-
-firebase.initializeApp({
-  apiKey: '### FIREBASE API KEY ###',
-  authDomain: '### FIREBASE AUTH DOMAIN ###',
-  projectId: '### CLOUD FUNCTIONS PROJECT ID ###'
-  databaseURL: 'https://### YOUR DATABASE NAME ###.firebaseio.com',
-});
-
-// Initialize Cloud Functions through Firebase
-var functions = firebase.functions();
-XP
-
-
-got warning while installing xlsx
- react-native-elements@0.19.1 requires a peer of react-native-vector-icons@^4.2.0 but none is installed. You must install peer dependencies yourself.
-
-+ xlsx@0.14.0
-added 11 packages from 3 contributors and audited 36143 packages in 11.773s
-found 0 vulnerabilities
-
-
-
-
-
-
-

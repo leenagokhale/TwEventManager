@@ -8,10 +8,15 @@ export default class RegisterForm extends Component {
         super(props);
 
         this.state = {
-            //selectedEvent: '',
             name: '',
+            nameValidated: true,
+
             email: '',
+            emailValidated: true,
+
             mobile: '',
+            mobileValidated: true,
+
             employer: '',
             jobTitle: '',
             notificationJobOp: true,
@@ -20,36 +25,53 @@ export default class RegisterForm extends Component {
         }
     }
 
-    clearFormData = () =>{
+    clearFormData = (txtEventName) =>{
 
         this.setState({
             name: '',
+            nameValidated: true,
+            
             email: '',
+            emailValidated: true,
+
             mobile: '',
+            mobileValidated: true,
+
             employer: '',
             jobTitle: '',
             notificationJobOp: true,
             notificationTechRadar: true,
             notificationNewsletter: true
 
-        }, () => {Alert.alert("Registration complete!")});
+        }, () => {Alert.alert("Welcome to " + txtEventName + " !\n" + "\nYour attendance is marked")});
       }
     
     submitPressedFireBaseAPI = (txtEventName, txtName, txtEmail, txtMobile, txtEmployer, txtJobTitle, txtNotiJob, txtNotiTech, txtNotiNews) => {
       
-        console.log(this.state.notificationJobOp);
+        if (this.state.name.trim() == '' || this.state.email == '')
+        {
+            Alert.alert("Name and Email address can't be empty");
+            return
+        }
+
+        if(! this.state.nameValidated || !this.state.emailValidated || !this.state.mobileValidated)
+        {
+            Alert.alert("Enter valid inputs");
+            return;
+        }
+
         const regTimeStamp = new Date();
         // Write data to registrations node.
         newRef = firebase.database().ref().child('registrations').push({
-            "name": txtName,
-            "email": txtEmail,
-            "mobile": txtMobile,
-            "employer": txtEmployer,
-            "jobTitle": txtJobTitle,
-            "regDate": regTimeStamp.toString(),
-            "notiJob": txtNotiJob.toString(),
-            "notiTech": txtNotiTech.toString(),
-            "notiNews":txtNotiNews.toString()});
+            "name": txtName.trim(),
+            "email": txtEmail.trim(),
+            "mobile": txtMobile.trim(),
+            "employer": txtEmployer.trim(),
+            "jobTitle": txtJobTitle.trim(),
+            "regDate": regTimeStamp.toString().trim(),
+            "notiJob": txtNotiJob.toString().trim(),
+            "notiTech": txtNotiTech.toString().trim(),
+            "notiNews": txtNotiNews.toString().trim()});
 
         const newID = newRef.key; //fireBase generated key to save unders events
 
@@ -69,17 +91,43 @@ export default class RegisterForm extends Component {
             });
         });
 
-       this.clearFormData();
+       this.clearFormData(txtEventName);
     }
 
-    // updateEvent = (eventName) => {
-    //     this.setState({ selectedEvent: eventName })
-    // }
+    validateInput = (txtInput, txtType) => {
 
-    componentDidMount() {
-       // this.loadEvents(this.eventsRef);
+        if (txtType == 'name')
+        {
+            alph=/^[a-z A-Z]+$/;
+            if(alph.test(txtInput))
+                this.setState({nameValidated:true,name: txtInput});
+            else{
+                this.setState({nameValidated:false, name: txtInput});
+                //console.warn("only alphabets please...");       
+            }
+        }
+        if (txtType == 'email')
+        {
+            //alph=/^[0-9a-zA-Z_@.%+-]+$/;
+            //if(alph.test(txtInput))
+            if(txtInput.trim()!='')
+                this.setState({emailValidated:true,email: txtInput});
+            else{
+                this.setState({emailValidated:false, email: txtInput});
+                //console.warn("enter vald email address...");       
+            }
+        }
+        if (txtType == 'mobile')
+        {
+            alph=/^[0-9+]+$/;
+            if(alph.test(txtInput))
+                this.setState({mobileValidated:true, mobile: txtInput});
+            else{
+                this.setState({mobileValidated:false, mobile: txtInput});
+                //console.warn("only alphabets please...");       
+            }
+        }
     }
-
     render() {
 
         const { navigation } = this.props;
@@ -97,25 +145,31 @@ export default class RegisterForm extends Component {
 
                 <View style={{flex: 1, padding:20, alignItems:'center'}}>   
                     <TextInput
-                        style={styles.textInput}
+                        style={[styles.textInput, !this.state.nameValidated?styles.error:null]}
                         autoCorrect={false}
                         value={this.state.name}
-                        placeholder="  Participant's Name"
-                        onChangeText={(text) => { this.setState({ name: text }) }}
+                        placeholder="  *Participant's Name"
+                        // onChangeText={(text) => { this.setState({ name: text }) }}
+                        onChangeText={(text) => { this.validateInput(text, 'name') }}
+
                     />
                     <TextInput
-                        style={styles.textInput}
+                        style={[styles.textInput, !this.state.emailValidated?styles.error:null]}
                         autoCorrect={false}
                         value={this.state.email}
                         keyboardType={'email-address'}
-                        placeholder="  Email"
-                        onChangeText={(text) => { this.setState({ email: text }) }} />
+                        placeholder="  *Email"
+                       // onChangeText={(text) => { this.setState({ email: text }) }} />
+                       onChangeText={(text) => { this.validateInput(text, 'email') }} />
+
                     <TextInput
-                        style={styles.textInput}
+                        style={[styles.textInput, !this.state.mobileValidated?styles.error:null]}
                         autoCorrect={false}
                         value={this.state.mobile}
                         placeholder="  Mobile Number"
-                        onChangeText={(text) => { this.setState({ mobile: text }) }} />
+                       // onChangeText={(text) => { this.setState({ mobile: text }) }} />
+                       onChangeText={(text) => { this.validateInput(text, 'mobile') }} />
+
                     <TextInput
                         style={styles.textInput}
                         autoCorrect={false}
@@ -203,5 +257,9 @@ const styles = StyleSheet.create({
     },
     notificationSwitch:{
         margin:15,
+    },
+    error:{
+        borderColor:'red',
+        borderWidth:2
     }
 });
