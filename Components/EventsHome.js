@@ -120,7 +120,7 @@ render() {
                 renderItem={({item}) =>
                     (
                         <View style={{flex:1, flexDirection:"row"}}>
-                            <Text style={{padding:6, width:"55%"}} > {item.eventName} </Text>
+                            <Text style={{padding:6, width:"52%", fontSize:20}} > {item.eventName} </Text>
                             
                             <View style={{flex:1, flexDirection:"row", padding:5}}>
                                 <TouchableOpacity
@@ -130,22 +130,22 @@ render() {
                                     {eventID:item._key ,eventName:item.eventName})}>
                                     <Text style={styles.listButtonText}>Attendance:{item.regCnt}</Text>
                                 </TouchableOpacity>
-                                 {/* <Text> </Text>            */}
+                                 <Text> </Text>           
                                 <TouchableOpacity
                                     style={styles.viewButton}
                                     onPress={ 
                                     () => this.props.navigation.navigate('ListForEvent',
                                     {eventID:item._key ,eventName:item.eventName})}>
                                     {/* <Text style={styles.listButtonText}>View</Text> */}
-                                    <Icon name="ios-list-box" color='royalblue' size={22} style={{justifyContent:'center',alignItems:'center',flex:1}}>
+                                    <Icon name="ios-list-box" color='royalblue' size={26} style={{justifyContent:'center',alignItems:'center',flex:1}}>
                                         {/* <Text style={styles.viewButtonText}> View</Text> */}
                                     </Icon>       
                                 </TouchableOpacity>
-                                {/* <Text></Text>            */}
+                                <Text></Text>           
                                 <TouchableOpacity
                                     style={styles.removeButton}
                                     onPress={ ()=> this.removeEventHandler(item._key)}>
-                                    <Icon name="ios-remove-circle" color='maroon' size={22} style={{justifyContent:'center',alignItems:'center',flex:1}}>
+                                    <Icon name="ios-remove-circle" color='maroon' size={26} style={{justifyContent:'center',alignItems:'center',flex:1}}>
                                         {/* <Text style={styles.viewButtonText}> View</Text> */}
                                     </Icon>       
                                 </TouchableOpacity>
@@ -173,11 +173,6 @@ const styles = StyleSheet.create({
         padding: 5,
         fontSize: 25,
     },
-    buttonInList:{
-       // width: 50,
-        textAlign: 'center',
-        backgroundColor:'red',
-    },
     viewStyle: {
         flex: 1,
     },
@@ -190,18 +185,17 @@ const styles = StyleSheet.create({
     },
     registerButton: {
         backgroundColor: 'steelblue',
-        alignItems: 'center',
+       // alignItems: 'center',
         padding: 7,
         //margin: 15,
         height: 30,
+        width: 100,
         borderRadius: 10
       },
       viewButton:{
-        //backgroundColor: 'powderblue',
-        alignItems: 'center',
-        padding: 5,
-        height: 30,
-        borderRadius: 10
+       alignItems: 'center',
+       padding: 5,
+        // height: 30,
       },
       listButtonText: {
         color: 'white',
@@ -214,11 +208,9 @@ const styles = StyleSheet.create({
         padding: 5
       },
       removeButton:{
-        //backgroundColor: 'powderblue',
         alignItems: 'center',
         padding: 5,
-        height: 30,
-        borderRadius: 10
+    //    height: 30,
       },
 });
 

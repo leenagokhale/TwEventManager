@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, FlatList, Alert, Button, Linking} from 'react-native';
 import firebase from '../Config/FireBaseConfig'
-//We have put firebase apiKey related details in a seperate file. 
-//That file is not put on git. 
 
 import { writeFile, DocumentDirectoryPath } from 'react-native-fs';
 import XLSX from 'xlsx';
@@ -23,7 +21,8 @@ export default class ListRegistrations extends Component {
             eventName: '',
             registrationsCount: 0,
             data: [],
-            attendanceData: []
+            attendanceData: [],
+            xlsFileName : '',
         }
     }
 
@@ -40,15 +39,18 @@ export default class ListRegistrations extends Component {
         XLSX.utils.book_append_sheet(wb, ws, "SheetJS");
 
         /* write file */
-        const wbout = XLSX.write(wb, {type:'binary', bookType:"xlsx"});
-        filnameNospaces = "tw-event-" + this.state.eventName.replace(/\s/g, "") + ".xlxs";
+        const wbout = XLSX.write(wb, {type:'binary', bookType:"xls"});
+        filnameNospaces = "tw-event-" + this.state.eventName.replace(/\s/g, "") + ".xls";
+        
         console.log("file name : " + filnameNospaces); 
 
-        //DDP for emulator saves in emulator path. We need to test on actual device.
-        //for Emulator I have given fixed path. Change this with DDP compile test on actual device
-        //const file = DDP + filnameNospaces; 
-       const file = "//Users//in-leenag//Development//React-Native//TwEventManager//" + filnameNospaces;
-       // console.log("Just before writing ", mydata);
+        /* DDP for emulator saves in emulator path. While testing on emulator I have project directory path */
+       //const file = "//Users//in-leenag//Development//React-Native//TwEventManager//" + filnameNospaces;
+       
+        /* On actual device, file will be saved in "Documents" directory under every app (sandbox structure in iOS) */
+        const file = DDP + filnameNospaces; 
+        
+        this.setState({xlsFileName : file});
 
         writeFile(file, output(wbout), 'ascii').then((res) =>{
                 Alert.alert("exportFile success", "Exported to " + file);
@@ -63,7 +65,6 @@ export default class ListRegistrations extends Component {
         regIDs = this.state.data.map(function (obj) {
         return obj._key;
         });
-        //console.log(regIDs);
 
         var names = [["Name", "Email", "Mobile", "Employer", "Job Title", "Date", "Notify Job", "Notify Tech", "Notify News"]];
         var promises = [];
@@ -106,42 +107,45 @@ export default class ListRegistrations extends Component {
     
     }
 
-
+    /* This function will open mail sender. 
+    It takes as an attachment file that was saved using save file button */
     sendEmail = () => {
 
+        if (this.state.xlsFileName === '')
+        {
+            Alert.alert("Click on Save before sending email");
+            return;
+        }
         // Alert.alert("In send email");
-       Linking.openURL('https://mail.google.com/') 
+        // Linking.openURL('https://mail.google.com/')  //to open google mail 
 
-
-      // you need to be on actual device with apple's email app configured.
-      // for using react-native-mail. https://github.com/chirag04/react-native-mail/issues/69
-      // for now the code is commented but uncomment it to test
-      /*
-      Mailer.mail({
-        subject: 'Attendance ',
-        recipients: ['gokhale.leena@gmail.com'],
-        ccRecipients: ['gokhale.leena@gmail.com'],
-        bccRecipients: ['gokhale.leena@gmail.com'],
-        body: '<b>Attendance for Event</b>',
+        // you need to be on actual device with apple's email app configured.
+        // for using react-native-mail. https://github.com/chirag04/react-native-mail/issues/69
+        // for now the code is commented but uncomment it to test
+        Mailer.mail({
+        subject: 'Attendance data for event - ' + this.state.eventName,
+        recipients: ['twevents.attendance@gmail.com'],
+       // ccRecipients: ['gokhale.leena@gmail.com'],
+       // bccRecipients: ['gokhale.leena@gmail.com'],
+        body: '<b>Please find details of participants who attendeded the event in .xls format</b>',
         isHTML: true,
         attachment: {
-          path: '',  // The absolute path of the file from which to read data.
-          type: '',   // Mime Type: jpg, png, doc, ppt, html, pdf, csv
-          name: '',   // Optional: Custom filename for attachment
+            path: DDP + "tw-event-" + this.state.eventName.replace(/\s/g, "") + ".xls",  // The absolute path of the file from which to read data. 
+            // path: DDP + "tw-event-" + "EventName" + ".xls",  // The absolute path of the file from which to read data.
+            type: "xls",   // Mime Type: jpg, png, doc, ppt, html, pdf, csv
+            name: "tw-event-" + this.state.eventName.replace(/\s/g, "") + ".xls",   // Optional: Custom filename for attachment
         }
-      }, (error, event) => {
+        }, (error, event) => {
         Alert.alert(
-          error,
-          event,
-          [
+            (error != null ? error + ' - Is your email setup on this device?' :error),
+            event,
+            [
             {text: 'Ok', onPress: () => console.log('OK: Email Error Response')},
-            {text: 'Cancel', onPress: () => console.log('CANCEL: Email Error Response')}
-          ],
-          { cancelable: true }
+            //{text: 'Cancel', onPress: () => console.log('CANCEL: Email Error Response')}
+            ],
+            { cancelable: true }
         )
-      }); */
-
-        
+        }); 
     }
 
     getParticipantsForEvent = (txtEventID) => {
@@ -186,7 +190,8 @@ export default class ListRegistrations extends Component {
 
         this.setState({
             eventID: txtEventID,
-            eventName: txtEventName
+            eventName: txtEventName,
+            xlsFileName : '',
         }, this.getParticipantsForEvent(txtEventID));
     }
 

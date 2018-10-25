@@ -142,17 +142,17 @@ export default class RegisterForm extends Component {
                     {/* <Text>eventID: {JSON.stringify(eventID)}</Text> */}
                     <Text style={{fontSize:18}}>{JSON.stringify(eventName)}</Text>
                 </View>
-
+            
+                
                 <View style={{flex: 1, padding:20, alignItems:'center'}}>   
+                <View style={{flex:3, width:"90%"}}>
                     <TextInput
                         style={[styles.textInput, !this.state.nameValidated?styles.error:null]}
                         autoCorrect={false}
                         value={this.state.name}
                         placeholder="  *Participant's Name"
                         // onChangeText={(text) => { this.setState({ name: text }) }}
-                        onChangeText={(text) => { this.validateInput(text, 'name') }}
-
-                    />
+                        onChangeText={(text) => { this.validateInput(text, 'name') }} />
                     <TextInput
                         style={[styles.textInput, !this.state.emailValidated?styles.error:null]}
                         autoCorrect={false}
@@ -182,33 +182,35 @@ export default class RegisterForm extends Component {
                         value={this.state.jobTitle}
                         placeholder="  Current Job Title"
                         onChangeText={(text) => { this.setState({ jobTitle: text }) }} />
-
-                    <View style={{flex:1, flexDirection:"column"}}>
-                    <Text style={{padding:10}}>Would you like to hear from Thoughtworks?               </Text>
-                        <View style={{flex:1, flexDirection:"row", padding:2}}>
-                            <Text style={{padding:5}}>Job Opportunities</Text>
-                            <Switch 
-                                style={{ transform: [{scaleX: .6}, { scaleY: .6}]}}
-                                onValueChange={(boolVal) => { this.setState({ notificationJobOp: boolVal }) }}
-                                value={this.state.notificationJobOp} /> 
+                    </View>    
+                    <View style={{flex:1, justifyContent:'flex-start'}}>
+                        <Text style={{padding:10}}>Would you like to hear from Thoughtworks?   </Text>
+                        <View style={{flex:1, flexDirection:"column", justifyContent:'flex-start'}}>
+                            <View style={{flex:1, flexDirection:"row", padding:2}}>
+                                <Text style={{padding:5}}>Job Opportunities</Text>
+                                <Switch 
+                                    style={{ transform: [{scaleX: .6}, { scaleY: .6}]}}
+                                    onValueChange={(boolVal) => { this.setState({ notificationJobOp: boolVal }) }}
+                                    value={this.state.notificationJobOp} /> 
                             </View>
-                        <View style={{flex:1, flexDirection:"row", padding:2}}>
-                            <Text style={{padding:5}}>Tech Radar            </Text>
-                            <Switch 
-                                style={{ transform: [{scaleX: .6}, { scaleY: .6}]}}
-                                onValueChange={(boolVal) => { this.setState({ notificationTechRadar: boolVal }) }}
-                                value={this.state.notificationTechRadar} />
-                                </View>
-                        <View style={{flex:1, flexDirection:"row", padding:2}}>
-                            <Text style={{padding:5}}>Newsletter             </Text>
-                            <Switch 
-                                style={{ transform: [{scaleX: .6}, { scaleY: .6}]}}
-                                onValueChange={(boolVal) => { this.setState({ notificationNewsletter: boolVal }) }}
-                                value={this.state.notificationNewsletter} />    
-                        </View>
+                            <View style={{flex:1, flexDirection:"row", padding:2}}>
+                                <Text style={{padding:5}}>Tech Radar            </Text>
+                                <Switch 
+                                    style={{ transform: [{scaleX: .6}, { scaleY: .6}]}}
+                                    onValueChange={(boolVal) => { this.setState({ notificationTechRadar: boolVal }) }}
+                                    value={this.state.notificationTechRadar} />
+                            </View>
+                            <View style={{flex:1, flexDirection:"row", padding:2}}>
+                                <Text style={{padding:5}}>Newsletter             </Text>
+                                <Switch 
+                                    style={{ transform: [{scaleX: .6}, { scaleY: .6}]}}
+                                    onValueChange={(boolVal) => { this.setState({ notificationNewsletter: boolVal }) }}
+                                    value={this.state.notificationNewsletter} />    
+                            </View>
                     </View>
-   
-                </View>
+
+                    </View>
+                    </View>
 
                 <TouchableOpacity
                     style={styles.submitButton}
@@ -234,7 +236,7 @@ const styles = StyleSheet.create({
 
     textInput: {
         margin: 8,
-        height: 35,
+        height: 40,
         backgroundColor: 'white',
         fontSize: 15,
         width: "90%"
