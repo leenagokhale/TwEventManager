@@ -98,9 +98,7 @@ class CreateEvent extends Component {
             value={this.state.eventName}
             placeholder="  Enter Event Name"
            // onChangeText={(text) => { this.setState({ eventName: text }) }}
-           onChangeText={(text) => { this.validateInput(text, 'eventname') }}
-
-          />
+           onChangeText={(text) => { this.validateInput(text, 'eventname') }} />
           <TextInput multiline
             style={styles.multilineText}
             value={this.state.eventDesc}
