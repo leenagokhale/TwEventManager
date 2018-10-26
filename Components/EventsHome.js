@@ -57,9 +57,8 @@ removeFromFireBase = (myref)=>{
     regRef.once('value', (snap) => {
         if (snap.val() != null){
             snap.forEach((child) => {
-               console.log("remove node id : " + child.key + " " + child.val());
+               //console.log("remove node id : " + child.key + " " + child.val());
                tempRef = firebase.database().ref('registrations/').child(child.key); 
-
                tempRef.remove(function(error) {
                         console.log(error ? "Uh oh, failed to delete!" : "Event deleted!")});
             });
