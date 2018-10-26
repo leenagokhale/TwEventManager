@@ -46,7 +46,8 @@ class CreateEvent extends Component {
           return;
         }
 
-      await fetch('https://tweventmanager-db.firebaseio.com//events.json', {
+     // await fetch('https://tweventmanager-db.firebaseio.com//events.json', {
+      await fetch('https://tweventattendance-db.firebaseio.com//events.json', {
         method: 'POST',
         headers: {
           Accept: 'application/json',

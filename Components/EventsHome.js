@@ -50,6 +50,23 @@ componentDidMount() {
 }
 
 removeFromFireBase = (myref)=>{
+
+    // iterate through children of this node, and delete entry under 'registrations' node.
+    // Just comment this code if you don't want to remove registrations data.
+    regRef = myref.child('registrations');
+    regRef.once('value', (snap) => {
+        if (snap.val() != null){
+            snap.forEach((child) => {
+               console.log("remove node id : " + child.key + " " + child.val());
+               tempRef = firebase.database().ref('registrations/').child(child.key); 
+
+               tempRef.remove(function(error) {
+                        console.log(error ? "Uh oh, failed to delete!" : "Event deleted!")});
+            });
+        }
+    });
+
+    //Now remove child node from 'events' 
     myref.remove(function(error) {
             console.log(error ? "Uh oh, failed to delete!" : "Event deleted!")});
 }
