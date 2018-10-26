@@ -11,6 +11,7 @@ const DDP = DocumentDirectoryPath + "/";
 
 export default class ListRegistrations extends Component {
 
+    _isMounted = false;
     constructor(props) {
         super(props);
 
@@ -174,10 +175,11 @@ export default class ListRegistrations extends Component {
                         });
                     });
                    
+                    if(this._isMounted) {
                     //console.log(itemsReg);
                     this.setState({
                         registrationsCount: temp,
-                        data: itemsReg}, console.log(this.state.data));
+                        data: itemsReg}, console.log(this.state.data));}
                 }
             });
     }
@@ -187,6 +189,8 @@ export default class ListRegistrations extends Component {
         const txtEventID = navigation.getParam('eventID', '');
         const txtEventName = navigation.getParam('eventName', '');
         console.log("In Mount..." + txtEventID + txtEventName);
+        this._isMounted = true;
+
 
         this.setState({
             eventID: txtEventID,
@@ -195,7 +199,10 @@ export default class ListRegistrations extends Component {
         }, this.getParticipantsForEvent(txtEventID));
     }
 
-  
+    componentWillUnmount() {
+        this._isMounted = false;
+      }
+
     GetItem(txtMsg) {
         Alert.alert(txtMsg);
         // Add code here to display participant details.
