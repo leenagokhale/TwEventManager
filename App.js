@@ -7,15 +7,15 @@
  */
 
 import React, { Component } from 'react';
-import CreateEvent from './Components/CreateEvent';
-import EventsHome from './Components/EventsHome';
-import RegisterForEvent from './Components/RegisterForEvent';
-import ListForEvent from './Components/ListForEvent';
+import CreateEvent from './Containers/CreateEvent';
+import EventsHome from './Containers/EventsHome';
+import RegisterForEvent from './Containers/RegisterForEvent';
+import ListForEvent from './Containers/ListForEvent';
 
 import { createStackNavigator } from 'react-navigation';
 
 
-const NewRootStack = createStackNavigator({
+const ScreenStack = createStackNavigator({
   EventsHome: {screen: EventsHome},
   CreateEvent: { screen: CreateEvent },
   RegisterForEvent: { screen: RegisterForEvent },
@@ -30,7 +30,7 @@ const NewRootStack = createStackNavigator({
 export default class App extends Component {
   render() {
     return (
-      <NewRootStack /> 
+      <ScreenStack /> 
     );
   }
 }
