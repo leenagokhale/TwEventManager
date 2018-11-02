@@ -26,7 +26,7 @@ export default class RegisterForm extends Component {
         }
     }
 
-    clearFormData = (txtEventName) => {
+    clearFormData = (txtEventName, showWelcome) => {
         this.setState({
             name: '',
             nameValidated: true,
@@ -43,7 +43,9 @@ export default class RegisterForm extends Component {
             notificationTechRadar: true,
             notificationNewsletter: true
 
-        }, () => { Alert.alert("Welcome to " + txtEventName + " !\n" + "\nYour attendance is marked") });
+        }, () => { 
+                    if(showWelcome) 
+                        Alert.alert("Welcome to " + txtEventName + " !\n" + "\nYour attendance is marked")});
     }
 
     submitPressed = (txtEventName, txtName, txtEmail, txtMobile, txtEmployer, txtJobTitle, txtNotiJob, txtNotiTech, txtNotiNews) => {
@@ -55,12 +57,25 @@ export default class RegisterForm extends Component {
             Alert.alert("Enter valid inputs");
             return;
         }
+        
+        // Participant's consent here to save data with TW.
+        Alert.alert(
+            'User Consent',
+            'Information you provide to ThoughtWorks is subject to our privacy policy\nYou agree to save this information with Thoughtworks\n',
+            [
+                { text: 'Cancel', onPress: () => {console.log('Cancel Pressed'); this.clearFormData(txtEventName, false);}, style: 'cancel' },
+                { text: 'I agree', onPress: () => { 
+                    //save attendance data to Firebase db
+                    firebaseStore = new FirebaseStore();
+                    firebaseStore.saveAttendanceData(txtEventName, txtName, txtEmail, txtMobile, txtEmployer, txtJobTitle, txtNotiJob, txtNotiTech, txtNotiNews);
 
-        //save attendance data to Firebase db
-        firebaseStore = new FirebaseStore();
-        firebaseStore.saveAttendanceData(txtEventName, txtName, txtEmail, txtMobile, txtEmployer, txtJobTitle, txtNotiJob, txtNotiTech, txtNotiNews);
+                    this.clearFormData(txtEventName, true);
 
-        this.clearFormData(txtEventName);
+                } },
+            ],
+            { cancelable: false }
+        );
+        
     }
 
     validateInput = (txtInput, txtType) => {

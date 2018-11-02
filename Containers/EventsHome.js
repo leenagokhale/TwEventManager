@@ -18,9 +18,7 @@ class EventsHome extends Component {
     loadEvents = (myref) => {
         console.log("In laod Events");
         myref.on('value', (snap) => {
-
             let items = []; items.length = 0;
-
             snap.forEach((childEvent) => {
                 let cnt = 0;
                 regRef = myref.child(childEvent.key).child('registrations');
@@ -28,14 +26,12 @@ class EventsHome extends Component {
                     cnt = snap2.numChildren();
                     console.log("Children : " + cnt);
                 });
-
                 items.push({
                     eventName: childEvent.val().eventName,
                     _key: childEvent.key,
                     regCnt: cnt
                 });
             });
-
             console.log(items)
             this.setState({
                 eventList: items

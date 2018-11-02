@@ -34,11 +34,11 @@ class CreateEvent extends Component {
       Alert.alert("Enter valid inputs");
       return;
     }
-    // today = new Date();
-    // if (this.state.chosenDate.getTime() < today.getTime()) {
-    //   Alert.alert("Sorry, can't create back dated event.");
-    //   return;
-    // }
+    today = new Date();
+    if (this.state.chosenDate.getDay() < today.getDay()) {
+      Alert.alert("Sorry, can't create back dated event.");
+      return;
+    }
     //save data to Firebase db
     firebaseStore = new FirebaseStore();
     firebaseStore.saveEventData(txteventName, txtDesc, txtDateTime);
