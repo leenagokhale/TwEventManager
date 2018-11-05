@@ -11,15 +11,15 @@ export default class RegisterForm extends Component {
         this.state = {
             name: '',
             nameValidated: true,
-
             email: '',
             emailValidated: true,
-
             mobile: '',
             mobileValidated: true,
-
             employer: '',
             jobTitle: '',
+            experienceInYrs: '',
+            experienceValidated: true,
+            additionalInfo : '',
             notificationJobOp: true,
             notificationTechRadar: true,
             notificationNewsletter: true
@@ -30,25 +30,44 @@ export default class RegisterForm extends Component {
         this.setState({
             name: '',
             nameValidated: true,
-
             email: '',
             emailValidated: true,
-
             mobile: '',
             mobileValidated: true,
-
             employer: '',
             jobTitle: '',
+            experienceInYrs: '',
+            experienceValidated: true,
+            additionalInfo: '',
             notificationJobOp: true,
             notificationTechRadar: true,
             notificationNewsletter: true
-
-        }, () => { 
+            }, () => { 
                     if(showWelcome) 
                         Alert.alert("Welcome to " + txtEventName + " !\n" + "\nYour attendance is marked")});
     }
 
-    submitPressed = (txtEventName, txtName, txtEmail, txtMobile, txtEmployer, txtJobTitle, txtNotiJob, txtNotiTech, txtNotiNews) => {
+    saveAttendanceToDB = (txtEventName) =>{
+        //save attendance data to Firebase db
+        const regTimeStamp = new Date();
+        const attendanceData = {
+            "name": this.state.name.trim(),
+            "email": this.state.email.trim(),
+            "mobile": this.state.mobile.trim(),
+            "employer": this.state.employer.trim(),
+            "jobTitle": this.state.jobTitle.trim(),
+            "experienceInYrs": this.state.experienceInYrs.trim(),
+            "additionalInfo": this.state.additionalInfo.trim(),
+            "regDate": regTimeStamp.toString().trim(),
+            "notiJob": this.state.notificationJobOp.toString().trim(),
+            "notiTech": this.state.notificationTechRadar.toString().trim(),
+            "notiNews": this.state.notificationNewsletter.toString().trim()
+        };
+        firebaseStore = new FirebaseStore();
+        firebaseStore.saveAttendanceData(txtEventName, attendanceData);
+    }
+
+    submitPressed = (txtEventName) => {
         if (this.state.name.trim() == '' || this.state.email == '') {
             Alert.alert("Name and Email address can't be empty");
             return
@@ -65,17 +84,12 @@ export default class RegisterForm extends Component {
             [
                 { text: 'Cancel', onPress: () => {console.log('Cancel Pressed'); this.clearFormData(txtEventName, false);}, style: 'cancel' },
                 { text: 'I agree', onPress: () => { 
-                    //save attendance data to Firebase db
-                    firebaseStore = new FirebaseStore();
-                    firebaseStore.saveAttendanceData(txtEventName, txtName, txtEmail, txtMobile, txtEmployer, txtJobTitle, txtNotiJob, txtNotiTech, txtNotiNews);
-
+                    this.saveAttendanceToDB(txtEventName);
                     this.clearFormData(txtEventName, true);
-
                 } },
             ],
             { cancelable: false }
         );
-        
     }
 
     validateInput = (txtInput, txtType) => {
@@ -105,6 +119,16 @@ export default class RegisterForm extends Component {
                 //console.warn("only alphabets please...");       
             }
         }
+        if (txtType == 'experience' ) {
+            alph = /^[0-9]+$/;
+            if (alph.test(txtInput))
+                this.setState({ experienceValidated: true, experienceInYrs: txtInput });
+            else {
+                this.setState({ experienceValidated: false, experienceInYrs: txtInput });
+                //console.warn("only alphabets please...");       
+            }
+        }
+
     }
 
     render() {
@@ -148,6 +172,18 @@ export default class RegisterForm extends Component {
                             value={this.state.jobTitle}
                             placeholder="  Current Job Title"
                             onChangeText={(text) => { this.setState({ jobTitle: text }) }} />
+                        <TextInput
+                            style={[styles.textInput, !this.state.experienceValidated ? styles.error : null]}
+                            autoCorrect={false}
+                            value={this.state.experienceInYrs}
+                            placeholder="  Experience in years"
+                            onChangeText={(text) => { this.validateInput(text, 'experience') }} />
+                        <TextInput
+                            style={styles.textInput}
+                            autoCorrect={false}
+                            value={this.state.additionalInfo}
+                            placeholder="  Additioanl Information (if any)"
+                            onChangeText={(text) => { this.setState({ additionalInfo: text }) }} />
                     </View>
                     <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                         <Text style={{ padding: 10 }}>Would you like to hear from Thoughtworks?   </Text>
@@ -179,7 +215,7 @@ export default class RegisterForm extends Component {
                 <TouchableOpacity
                     style={styles.submitButton}
                     onPress={
-                        () => this.submitPressed(eventName, this.state.name, this.state.email, this.state.mobile, this.state.employer, this.state.jobTitle, this.state.notificationJobOp, this.state.notificationTechRadar, this.state.notificationNewsletter)}>
+                        () => this.submitPressed(eventName)}>
                     <Text style={styles.submitButtonText}> Mark My Attendance </Text>
                 </TouchableOpacity>
                 <Button

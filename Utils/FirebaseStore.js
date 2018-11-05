@@ -21,20 +21,9 @@ class FirebaseStore {
     console.log("Inside fetch block");
   }
 
-  saveAttendanceData = (txtEventName, txtName, txtEmail, txtMobile, txtEmployer, txtJobTitle, txtNotiJob, txtNotiTech, txtNotiNews) => {
-    const regTimeStamp = new Date();
-    // Write data to registrations node.
-    newRef = firebase.database().ref().child('registrations').push({
-      "name": txtName.trim(),
-      "email": txtEmail.trim(),
-      "mobile": txtMobile.trim(),
-      "employer": txtEmployer.trim(),
-      "jobTitle": txtJobTitle.trim(),
-      "regDate": regTimeStamp.toString().trim(),
-      "notiJob": txtNotiJob.toString().trim(),
-      "notiTech": txtNotiTech.toString().trim(),
-      "notiNews": txtNotiNews.toString().trim()
-    });
+    saveAttendanceData = (txtEventName, attndData) => {
+  
+    newRef = firebase.database().ref().child('registrations').push(attndData);
 
     const newID = newRef.key; //fireBase generated key to save unders events
     eventsRef = firebase.database().ref().child('events');
@@ -45,7 +34,7 @@ class FirebaseStore {
         if (child.val().eventName.localeCompare(txtEventName) === 0) {
           //append eventName key to events node. set it to participants's name.
           //update will not add fireBase generated uique key. 
-          eventsRef.child(child.key + '/registrations').update({ [newID]: txtName });
+          eventsRef.child(child.key + '/registrations').update({ [newID]: attndData.name });
         }
       });
     });

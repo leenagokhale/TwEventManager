@@ -30,7 +30,9 @@ export default class ListForEvent extends Component {
             return obj._key;
         });
 
-        var names = [["Name", "Email", "Mobile", "Employer", "Job Title", "Date", "Notify Job", "Notify Tech", "Notify News"]];
+        var names = [["Name", "Email", "Mobile", "Employer", "Job Title",
+            "Experience In Yrs", "Additional Info",
+            "Date", "Notify Job", "Notify Tech", "Notify News"]];
         var promises = [];
 
         // Map the Firebase promises into an array. This is V imp or else 
@@ -53,6 +55,8 @@ export default class ListForEvent extends Component {
                         snapshot.val().mobile,
                         snapshot.val().employer,
                         snapshot.val().jobTitle,
+                        snapshot.val().experienceInYrs,
+                        snapshot.val().additionalInfo,
                         snapshot.val().regDate,
                         snapshot.val().notiJob,
                         snapshot.val().notiTech,
