@@ -80,7 +80,7 @@ export default class RegisterForm extends Component {
         // Participant's consent here to save data with TW.
         Alert.alert(
             'User Consent',
-            'Information you provide to ThoughtWorks is subject to our privacy policy\nYou agree to save this information with Thoughtworks\n',
+            'I agree to share my information with you and understand it will be used as described in ThoughtWorks privacy policy: https://www.thoughtworks.com/privacy-policy',
             [
                 { text: 'Cancel', onPress: () => {console.log('Cancel Pressed'); this.clearFormData(txtEventName, false);}, style: 'cancel' },
                 { text: 'I agree', onPress: () => { 
