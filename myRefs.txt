@@ -1,6 +1,74 @@
 
 reference links -
 
+
+********************** GDPR data protection regulation****************************************
+
+General data protection regulation. Effective from May 2018 in EU.
+Applies to EU and organisation providing good and services to EU customer.
+Name, address, photo, IP address, genetic and biometric data etc.
+
+
+GDPR was approved by EU in 2016. It came into effect in May 2018
+It impacts organisations with in EU and those outside that process or hold data of EU residents
+Organisations will be fined 20 million or 4% of global turnover for non compliance
+Personal data includes name, ID, IP address, genetic data, location etc
+People can ask data controllers if their personal data is being processed, where and for what purpose
+People have the right to be forgotten and can ask the controller to erase personal data, stop dissemination of data and have third parties stop processing data
+Conditions for consent have been strengthened.
+
+To make your app GDPR compilant following things can be done
+1. Ask user consent while collecting data
+2. Have a link on the screen to show 'privacy policy'
+3. In app - delete attendance data when event gets deleted. 
+
+https://www.mobiloud.com/blog/gdpr-compliant-mobile-app/
+
+
+
+********************* refractoring  and clean code *****************
+https://sourcemaking.com/refactoring/smells
+https://martinfowler.com/bliki/CodeSmell.html
+
+https://www.codingdojo.com/blog/clean-code-techniques/
+
+https://forums.meteor.com/t/react-callbacks-with-arguments-in-child-components-solved/27258
+
+In VS.. 
+to change variable name, CTRL+R and R
+efractoring with Visual Studio
+plugin - "resharper" - llok into it., VS - code formatting
+
+https://www.reactnative.guide/5-project-structure-and-start-building-some-app/5.1-customising-the-structure.html
+Follow this type of directory structure.
+http://www.zsoltnagy.eu/container-components-and-stateless-functional-components-in-react/
+
+****************** running app in iPad device **********************
+Issues faced---
+There was problem with RNmail references.
+The project used to build for simulator, but when actual iPad was connected,
+it had issues in building RNmail. RNmail is third party library used
+in the project to send mail, "import react-native-mail". Remove this libarary
+and all the references of it from the project. Only then it will build.
+
+Had to remove RNmail reference from package.json file, 
+then from Xcode project "Libraries". Then in "recovry..." in project.
+
+
+That build the project and instlled on XCode.
+
+
+To get iPad simulator on my project envrn
+
+react-native run-ios --simulator 'iPad Air'
+(This brings iPad simulator but application view is still small)
+
+react-native run-ios --simulator 'iPad (6th generation)'
+(increase the app size by using button on screen)
+
+To get list of devices supported by XCode 10, pen any existing project in Xcode,
+go to 'Product' menu, go to 'destination' and see list of simulators available.
+
 ************* project dependancies ********************************** 
 go to project directory and
 
@@ -38,6 +106,11 @@ https://stackoverflow.com/questions/48964499/loop-through-data-to-pull-array-of-
 
 
 **************sending email from react-native *****************************
+
+Also read about https://github.com/angelos3lex/react-native-smtp-mailer
+MailCompose from 'react-native-mail-compose';
+MFMailComposeViewController iOS component
+
 
 Following is working in sending email.
 
@@ -321,3 +394,4 @@ Clean Code workshop
 Speakers Corner
 Geek Night
 Boot Camp
+
